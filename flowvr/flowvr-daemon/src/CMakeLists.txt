@@ -11,7 +11,7 @@ SET(plugd-SRC plugd/class.cpp plugd/object.cpp plugd/actionhandler.cpp
 	      plugins/sys/flowvr.plugins.ThreadedFilter.cpp
 	      daemon.cpp)
 ADD_LIBRARY(flowvr-plugd SHARED ${plugd-SRC})
-TARGET_LINK_LIBRARIES(flowvr-plugd flowvr-base ftlm ${CMAKE_THREAD_LIBS_INIT})
+TARGET_LINK_LIBRARIES(flowvr-plugd flowvr-base ftlm ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT})
 SET_TARGET_PROPERTIES(flowvr-plugd PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
 SET_SOURCE_FILES_PROPERTIES(plugd/class.cpp PROPERTIES COMPILE_FLAGS "-DFLOWVR_SO_SUFFIX=\"${CMAKE_SHARED_MODULE_SUFFIX}\"")
 
