@@ -1,0 +1,20 @@
+// simple 'multitexture' pixel shader, we use 2 texture units here,
+// and we expect the first one to hold the 'object-surface-texture'
+// and the second one to hold a kind of 'blending-map' with transparency
+// to finally map the resulting color value
+// both textures should be equal in size and share the same 'tex-coord-space'
+
+// as input we get:
+// - the tex-coordinate to use from both textures  
+// - the original color to modulate
+// - 
+
+half4 main(
+      half2 ptex0   : TEXCOORD0,
+      uniform sampler2D solidTexture0,
+      uniform sampler2D lightTexture1
+  ) : COLOR
+{
+  half4 color  = tex2D( solidTexture0, ptex0 ); // take the color from the first texture 'as-is'
+  return color * tex2D( lightTexture1, ptex0 ); // modulate with the pixel value stored in the second.
+}

@@ -1,0 +1,26 @@
+// Sphere Vertex Shader
+// normal = position (only for spheres with radius 1)
+// texcoord0 + color attributes
+
+void main(
+  float4 position    : POSITION,
+  float3 normal      : NORMAL,
+  float2 texcoord0   : TEXCOORD0,
+  half3  color0      : COLOR0,
+
+  uniform half2    mapscale = half2(1,1),
+
+  uniform float4x4 ModelViewProj,
+  uniform float4x4 ModelView    ,
+  uniform float4x4 ModelViewIT  ,
+      out float4 ppos        : POSITION,
+      out half3 pnormal      : TEXCOORD1,
+      out half2 ptex0        : TEXCOORD0,
+      out half3 pcolor       : COLOR0)
+{
+  ppos = mul(ModelViewProj, position);
+  ptex0 = texcoord0*mapscale;
+  pcolor = color0;
+  //half3 normal = position.xyz;
+  pnormal = mul((float3x3)ModelViewIT, normal);
+}

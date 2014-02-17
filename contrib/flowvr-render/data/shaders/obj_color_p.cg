@@ -1,0 +1,2 @@
+#define TEX0 1
+#include "obj_mat_p.cg"

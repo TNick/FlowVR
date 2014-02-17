@@ -1,0 +1,577 @@
+package require vtk
+package require vtkinteraction
+
+package require vtkflowvrrender
+
+vtkFlowVRModule module
+
+set datadir $env(VTK_FLOWVR_DATA_ROOT)
+
+# Create the standard renderer, render window
+# and interactor
+vtkRenderer ren1
+vtkRenderWindow renWin
+    renWin AddRenderer ren1
+#vtkRenderWindowInteractor iren
+#    iren SetRenderWindow renWin
+
+# Create the reader for the data
+vtkImageReader2 reader
+  reader SetDataScalarTypeToUnsignedChar
+  reader SetNumberOfScalarComponents 1
+  reader SetFileDimensionality 3
+  reader SetFileName "$datadir/XMasTree-LO-8.pvm.raw"
+  reader SetDataExtent 0 255 0 248 0 255
+vtkPiecewiseFunction OF
+vtkColorTransferFunction CF
+  CF AddRGBPoint 0.0 0 0 0
+  OF AddPoint 0.0 0
+  CF AddRGBPoint 1.0 0 0 0.0117647
+  OF AddPoint 1.0 0
+  CF AddRGBPoint 2.0 0 0 0.0235294
+  OF AddPoint 2.0 0
+  CF AddRGBPoint 3.0 0 0 0.0352941
+  OF AddPoint 3.0 0
+  CF AddRGBPoint 4.0 0 0 0.0470588
+  OF AddPoint 4.0 0
+  CF AddRGBPoint 5.0 0 0 0.0588235
+  OF AddPoint 5.0 0
+  CF AddRGBPoint 6.0 0 0 0.0705882
+  OF AddPoint 6.0 0
+  CF AddRGBPoint 7.0 0 0 0.0823529
+  OF AddPoint 7.0 0
+  CF AddRGBPoint 8.0 0 0 0.0941176
+  OF AddPoint 8.0 0
+  CF AddRGBPoint 9.0 0 0 0.105882
+  OF AddPoint 9.0 0
+  CF AddRGBPoint 10.0 0 0 0.117647
+  OF AddPoint 10.0 0
+  CF AddRGBPoint 11.0 0 0 0.129412
+  OF AddPoint 11.0 0
+  CF AddRGBPoint 12.0 0 0 0.141176
+  OF AddPoint 12.0 0
+  CF AddRGBPoint 13.0 0 0 0.152941
+  OF AddPoint 13.0 0
+  CF AddRGBPoint 14.0 0 0 0.164706
+  OF AddPoint 14.0 0
+  CF AddRGBPoint 15.0 0 0 0.176471
+  OF AddPoint 15.0 0
+  CF AddRGBPoint 16.0 0 0 0.188235
+  OF AddPoint 16.0 0
+  CF AddRGBPoint 17.0 0 0 0.2
+  OF AddPoint 17.0 0
+  CF AddRGBPoint 18.0 0 0 0.211765
+  OF AddPoint 18.0 0
+  CF AddRGBPoint 19.0 0 0 0.223529
+  OF AddPoint 19.0 0
+  CF AddRGBPoint 20.0 0 0 0.235294
+  OF AddPoint 20.0 0
+  CF AddRGBPoint 21.0 0 0 0.247059
+  OF AddPoint 21.0 0
+  CF AddRGBPoint 22.0 0 0 0.258824
+  OF AddPoint 22.0 0
+  CF AddRGBPoint 23.0 0 0 0.270588
+  OF AddPoint 23.0 0
+  CF AddRGBPoint 24.0 0 0 0.282353
+  OF AddPoint 24.0 0
+  CF AddRGBPoint 25.0 0 0 0.294118
+  OF AddPoint 25.0 0
+  CF AddRGBPoint 26.0 0 0 0.305882
+  OF AddPoint 26.0 0
+  CF AddRGBPoint 27.0 0 0 0.317647
+  OF AddPoint 27.0 0
+  CF AddRGBPoint 28.0 0 0 0.329412
+  OF AddPoint 28.0 0
+  CF AddRGBPoint 29.0 0 1 0.341176
+  OF AddPoint 29.0 0
+  CF AddRGBPoint 30.0 0 1 0.352941
+  OF AddPoint 30.0 0
+  CF AddRGBPoint 31.0 0 1 0.364706
+  OF AddPoint 31.0 0
+  CF AddRGBPoint 32.0 0 1 0.376471
+  OF AddPoint 32.0 0
+  CF AddRGBPoint 33.0 0 1 0.388235
+  OF AddPoint 33.0 0.121094
+  CF AddRGBPoint 34.0 0 1 0.4
+  OF AddPoint 34.0 0.095052
+  CF AddRGBPoint 35.0 0 1 0.411765
+  OF AddPoint 35.0 0.0820312
+  CF AddRGBPoint 36.0 0 1 0.423529
+  OF AddPoint 36.0 0.0820312
+  CF AddRGBPoint 37.0 0 1 0.435294
+  OF AddPoint 37.0 0.0820312
+  CF AddRGBPoint 38.0 0 1 0.447059
+  OF AddPoint 38.0 0.0820312
+  CF AddRGBPoint 39.0 0 1 0.458824
+  OF AddPoint 39.0 0.0820312
+  CF AddRGBPoint 40.0 0 1 0.470588
+  OF AddPoint 40.0 0.0820312
+  CF AddRGBPoint 41.0 0 1 0.482353
+  OF AddPoint 41.0 0
+  CF AddRGBPoint 42.0 0 1 0.494118
+  OF AddPoint 42.0 0
+  CF AddRGBPoint 43.0 0 1 0.505882
+  OF AddPoint 43.0 0
+  CF AddRGBPoint 44.0 0 0 0.517647
+  OF AddPoint 44.0 0
+  CF AddRGBPoint 45.0 0 0 0.529412
+  OF AddPoint 45.0 0
+  CF AddRGBPoint 46.0 0 0 0.541176
+  OF AddPoint 46.0 0
+  CF AddRGBPoint 47.0 0 0 0.0429687
+  OF AddPoint 47.0 0
+  CF AddRGBPoint 48.0 0 0 0.0429687
+  OF AddPoint 48.0 0
+  CF AddRGBPoint 49.0 0 0 0.0429687
+  OF AddPoint 49.0 0
+  CF AddRGBPoint 50.0 0 0 0.0429687
+  OF AddPoint 50.0 0
+  CF AddRGBPoint 51.0 0 0 0.0429687
+  OF AddPoint 51.0 0
+  CF AddRGBPoint 52.0 0 0 0.0429687
+  OF AddPoint 52.0 0
+  CF AddRGBPoint 53.0 0 0 0.0429687
+  OF AddPoint 53.0 0
+  CF AddRGBPoint 54.0 0 0 0.0429687
+  OF AddPoint 54.0 0
+  CF AddRGBPoint 55.0 0 0 0.0429687
+  OF AddPoint 55.0 0
+  CF AddRGBPoint 56.0 0 0 0.0429687
+  OF AddPoint 56.0 0
+  CF AddRGBPoint 57.0 0 0 0.0429687
+  OF AddPoint 57.0 0
+  CF AddRGBPoint 58.0 0 0 0.0429687
+  OF AddPoint 58.0 0
+  CF AddRGBPoint 59.0 0 0 0.0429687
+  OF AddPoint 59.0 0
+  CF AddRGBPoint 60.0 0 0 0.0429687
+  OF AddPoint 60.0 0
+  CF AddRGBPoint 61.0 0 0 0.0429687
+  OF AddPoint 61.0 0
+  CF AddRGBPoint 62.0 0 0 0.0429687
+  OF AddPoint 62.0 0
+  CF AddRGBPoint 63.0 0 0 0.0429687
+  OF AddPoint 63.0 0
+  CF AddRGBPoint 64.0 0 0 0.0429687
+  OF AddPoint 64.0 0
+  CF AddRGBPoint 65.0 0 0 0.0429687
+  OF AddPoint 65.0 0
+  CF AddRGBPoint 66.0 0 0 0.0429687
+  OF AddPoint 66.0 0
+  CF AddRGBPoint 67.0 0 0 0.0429687
+  OF AddPoint 67.0 0
+  CF AddRGBPoint 68.0 0 0 0.0429687
+  OF AddPoint 68.0 0
+  CF AddRGBPoint 69.0 0 0 0.0429687
+  OF AddPoint 69.0 0
+  CF AddRGBPoint 70.0 0 0 0.0429687
+  OF AddPoint 70.0 0
+  CF AddRGBPoint 71.0 0 0 0.0429687
+  OF AddPoint 71.0 0
+  CF AddRGBPoint 72.0 0 0 0.0429687
+  OF AddPoint 72.0 0
+  CF AddRGBPoint 73.0 0 0 0.0429687
+  OF AddPoint 73.0 0
+  CF AddRGBPoint 74.0 0 0 0.0429687
+  OF AddPoint 74.0 0
+  CF AddRGBPoint 75.0 0 0 0.0429687
+  OF AddPoint 75.0 0
+  CF AddRGBPoint 76.0 0 0 0.0429687
+  OF AddPoint 76.0 0
+  CF AddRGBPoint 77.0 0 0 0.0429687
+  OF AddPoint 77.0 0
+  CF AddRGBPoint 78.0 0 0 0.0429687
+  OF AddPoint 78.0 0
+  CF AddRGBPoint 79.0 0 0 0.0429687
+  OF AddPoint 79.0 0
+  CF AddRGBPoint 80.0 0 0 0.0429687
+  OF AddPoint 80.0 0
+  CF AddRGBPoint 81.0 0 0 0.0429687
+  OF AddPoint 81.0 0
+  CF AddRGBPoint 82.0 0 0 0.0429687
+  OF AddPoint 82.0 0
+  CF AddRGBPoint 83.0 0 0 0.0429687
+  OF AddPoint 83.0 0
+  CF AddRGBPoint 84.0 0 0 0.0429687
+  OF AddPoint 84.0 0
+  CF AddRGBPoint 85.0 0 0.00390625 0.0429687
+  OF AddPoint 85.0 0
+  CF AddRGBPoint 86.0 0 0.00390625 0.0429687
+  OF AddPoint 86.0 0
+  CF AddRGBPoint 87.0 0 0.00390625 0.0429687
+  OF AddPoint 87.0 0
+  CF AddRGBPoint 88.0 0 0.00390625 0.0429687
+  OF AddPoint 88.0 0
+  CF AddRGBPoint 89.0 0 0.00390625 0.0429687
+  OF AddPoint 89.0 0
+  CF AddRGBPoint 90.0 0 0.00390625 0.0429687
+  OF AddPoint 90.0 0
+  CF AddRGBPoint 91.0 0 0.00390625 0.0429687
+  OF AddPoint 91.0 0.0234374
+  CF AddRGBPoint 92.0 0 0.00390625 0.0429687
+  OF AddPoint 92.0 0.0234374
+  CF AddRGBPoint 93.0 1 0.00390625 0.0429687
+  OF AddPoint 93.0 0.0234374
+  CF AddRGBPoint 94.0 1 0.00390625 0.0429687
+  OF AddPoint 94.0 0.0234374
+  CF AddRGBPoint 95.0 1 0.00390625 0.0429687
+  OF AddPoint 95.0 0.0234374
+  CF AddRGBPoint 96.0 1 0.00390625 0.0429687
+  OF AddPoint 96.0 0.0234374
+  CF AddRGBPoint 97.0 1 0.00390625 0.0429687
+  OF AddPoint 97.0 0.0234374
+  CF AddRGBPoint 98.0 1 0.00390625 0.0429687
+  OF AddPoint 98.0 0.0234374
+  CF AddRGBPoint 99.0 1 0.00390625 0.0429687
+  OF AddPoint 99.0 0.0234374
+  CF AddRGBPoint 100.0 1 0.00390625 0.0429687
+  OF AddPoint 100.0 0.0234374
+  CF AddRGBPoint 101.0 1 0.00390625 0.0429687
+  OF AddPoint 101.0 0.0234374
+  CF AddRGBPoint 102.0 1 0.00390625 0.0429687
+  OF AddPoint 102.0 0.0234374
+  CF AddRGBPoint 103.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 103.0 0.0234374
+  CF AddRGBPoint 104.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 104.0 0.0234374
+  CF AddRGBPoint 105.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 105.0 0.0234374
+  CF AddRGBPoint 106.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 106.0 0.0234374
+  CF AddRGBPoint 107.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 107.0 0.0234374
+  CF AddRGBPoint 108.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 108.0 0.0234374
+  CF AddRGBPoint 109.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 109.0 0.0234374
+  CF AddRGBPoint 110.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 110.0 0.0234374
+  CF AddRGBPoint 111.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 111.0 0.0234374
+  CF AddRGBPoint 112.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 112.0 0.0234374
+  CF AddRGBPoint 113.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 113.0 0.0234374
+  CF AddRGBPoint 114.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 114.0 0.0234374
+  CF AddRGBPoint 115.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 115.0 0.0234374
+  CF AddRGBPoint 116.0 0.960938 0.00390625 0.0429687
+  OF AddPoint 116.0 0.0234374
+  CF AddRGBPoint 117.0 0.960938 0.00390625 0.00390625
+  OF AddPoint 117.0 0.0234374
+  CF AddRGBPoint 118.0 0.960938 0.00390625 0.00390625
+  OF AddPoint 118.0 0.460938
+  CF AddRGBPoint 119.0 0.960938 0.00390625 0.00390625
+  OF AddPoint 119.0 0.464844
+  CF AddRGBPoint 120.0 0.960938 0.00390625 0.00390625
+  OF AddPoint 120.0 0.46875
+  CF AddRGBPoint 121.0 0.960938 0.00390625 0.00390625
+  OF AddPoint 121.0 0.472656
+  CF AddRGBPoint 122.0 0.960938 0.00390625 0.00390625
+  OF AddPoint 122.0 0.476562
+  CF AddRGBPoint 123.0 0.960938 0.00390625 0.00390625
+  OF AddPoint 123.0 0.480469
+  CF AddRGBPoint 124.0 0.921875 0.199219 0.00390625
+  OF AddPoint 124.0 0.484375
+  CF AddRGBPoint 125.0 0.921875 0.199219 0.00390625
+  OF AddPoint 125.0 0.488281
+  CF AddRGBPoint 126.0 0.921875 0.199219 0.00390625
+  OF AddPoint 126.0 0.492188
+  CF AddRGBPoint 127.0 0.921875 0.199219 0.00390625
+  OF AddPoint 127.0 0.496094
+  CF AddRGBPoint 128.0 0.921875 0.277344 0.00390625
+  OF AddPoint 128.0 0.5
+  CF AddRGBPoint 129.0 0.921875 0.290365 0.00390625
+  OF AddPoint 129.0 0.503906
+  CF AddRGBPoint 130.0 0.921875 0.355469 0.0820312
+  OF AddPoint 130.0 0.507812
+  CF AddRGBPoint 131.0 0.921875 0.355469 0.0820312
+  OF AddPoint 131.0 0.511719
+  CF AddRGBPoint 132.0 0.921875 0.36849 0.0820312
+  OF AddPoint 132.0 0.515625
+  CF AddRGBPoint 133.0 0.921875 0.394531 0.0820312
+  OF AddPoint 133.0 0.519531
+  CF AddRGBPoint 134.0 0.921875 0.707031 0.0820312
+  OF AddPoint 134.0 0.523438
+  CF AddRGBPoint 135.0 0.921875 0.707031 0.0820312
+  OF AddPoint 135.0 0.527344
+  CF AddRGBPoint 136.0 0.921875 0.707031 0.0820312
+  OF AddPoint 136.0 0.53125
+  CF AddRGBPoint 137.0 0.921875 0.707031 0.0820312
+  OF AddPoint 137.0 0.535156
+  CF AddRGBPoint 138.0 0.921875 0.707031 0
+  OF AddPoint 138.0 0.539062
+  CF AddRGBPoint 139.0 0 0.625 0.000976562
+  OF AddPoint 139.0 0.542969
+  CF AddRGBPoint 140.0 0 0.636364 0.00390625
+  OF AddPoint 140.0 0.546875
+  CF AddRGBPoint 141.0 0 0.647727 0.00390625
+  OF AddPoint 141.0 0.550781
+  CF AddRGBPoint 142.0 0 0.659091 0.00390625
+  OF AddPoint 142.0 0.554688
+  CF AddRGBPoint 143.0 0 0.670455 0.00390625
+  OF AddPoint 143.0 0.558594
+  CF AddRGBPoint 144.0 0 0.681818 0.00390625
+  OF AddPoint 144.0 0.5625
+  CF AddRGBPoint 145.0 0 0.693182 0.00390625
+  OF AddPoint 145.0 0.566406
+  CF AddRGBPoint 146.0 0 0.704545 0.00390625
+  OF AddPoint 146.0 0.570312
+  CF AddRGBPoint 147.0 0 0.715909 0.00390625
+  OF AddPoint 147.0 0.574219
+  CF AddRGBPoint 148.0 0 0.727273 0.00390625
+  OF AddPoint 148.0 0.578125
+  CF AddRGBPoint 149.0 0 0.738636 0.00390625
+  OF AddPoint 149.0 0.582031
+  CF AddRGBPoint 150.0 0 0.75 0.00390625
+  OF AddPoint 150.0 0.585938
+  CF AddRGBPoint 151.0 0 0.761364 0.00390625
+  OF AddPoint 151.0 0.589844
+  CF AddRGBPoint 152.0 0 0.772727 0.00390625
+  OF AddPoint 152.0 0.59375
+  CF AddRGBPoint 153.0 0 0.784091 0.00390625
+  OF AddPoint 153.0 0.597656
+  CF AddRGBPoint 154.0 0 0.795455 0.00390625
+  OF AddPoint 154.0 0.601562
+  CF AddRGBPoint 155.0 0 0.806818 0.00390625
+  OF AddPoint 155.0 0.605469
+  CF AddRGBPoint 156.0 0 0.818182 0.00390625
+  OF AddPoint 156.0 0.609375
+  CF AddRGBPoint 157.0 0 0.829545 0.00390625
+  OF AddPoint 157.0 0.613281
+  CF AddRGBPoint 158.0 0 0.840909 0.00390625
+  OF AddPoint 158.0 0.617188
+  CF AddRGBPoint 159.0 0 0.852273 0.00390625
+  OF AddPoint 159.0 0.621094
+  CF AddRGBPoint 160.0 0 0.863636 0.00390625
+  OF AddPoint 160.0 0.625
+  CF AddRGBPoint 161.0 0 0.875 0.00390625
+  OF AddPoint 161.0 0.628906
+  CF AddRGBPoint 162.0 0 0.886364 0.113636
+  OF AddPoint 162.0 0.632812
+  CF AddRGBPoint 163.0 0 0.897727 0.102273
+  OF AddPoint 163.0 0.636719
+  CF AddRGBPoint 164.0 0 0.909091 0.0909091
+  OF AddPoint 164.0 0.640625
+  CF AddRGBPoint 165.0 0 0.920455 0.0795455
+  OF AddPoint 165.0 0.644531
+  CF AddRGBPoint 166.0 0 0.931818 0.0681818
+  OF AddPoint 166.0 0.648438
+  CF AddRGBPoint 167.0 0 0.943182 0.941406
+  OF AddPoint 167.0 0.652344
+  CF AddRGBPoint 168.0 0 0.954545 0.941406
+  OF AddPoint 168.0 0.65625
+  CF AddRGBPoint 169.0 0 0.965909 0.941406
+  OF AddPoint 169.0 0.660156
+  CF AddRGBPoint 170.0 0 0.977273 0.941406
+  OF AddPoint 170.0 0.664062
+  CF AddRGBPoint 171.0 0 1 0.941406
+  OF AddPoint 171.0 0.667969
+  CF AddRGBPoint 172.0 0.0117647 0.988235 0.941406
+  OF AddPoint 172.0 0.671875
+  CF AddRGBPoint 173.0 0.0235294 0.976471 0.941406
+  OF AddPoint 173.0 0.675781
+  CF AddRGBPoint 174.0 0.0352941 0.964706 0.941406
+  OF AddPoint 174.0 0.679688
+  CF AddRGBPoint 175.0 0.0470588 0.952941 0.941406
+  OF AddPoint 175.0 0.683594
+  CF AddRGBPoint 176.0 0.0588235 0.941176 0.941406
+  OF AddPoint 176.0 0.6875
+  CF AddRGBPoint 177.0 0.0705882 0.929412 0.941406
+  OF AddPoint 177.0 0.691406
+  CF AddRGBPoint 178.0 0.0823529 0.917647 0.941406
+  OF AddPoint 178.0 0.695312
+  CF AddRGBPoint 179.0 0.0941176 0.905882 0
+  OF AddPoint 179.0 0.699219
+  CF AddRGBPoint 180.0 0.105882 0.894118 0
+  OF AddPoint 180.0 0.703125
+  CF AddRGBPoint 181.0 0.117647 0.882353 0
+  OF AddPoint 181.0 0.707031
+  CF AddRGBPoint 182.0 0.129412 0.870588 0
+  OF AddPoint 182.0 0.710938
+  CF AddRGBPoint 183.0 0.141176 0.858824 0
+  OF AddPoint 183.0 0.714844
+  CF AddRGBPoint 184.0 0.152941 0.847059 0
+  OF AddPoint 184.0 0.71875
+  CF AddRGBPoint 185.0 0.164706 0.835294 0
+  OF AddPoint 185.0 0.722656
+  CF AddRGBPoint 186.0 0.176471 0.823529 0
+  OF AddPoint 186.0 0.726562
+  CF AddRGBPoint 187.0 0.188235 0.811765 0
+  OF AddPoint 187.0 0.730469
+  CF AddRGBPoint 188.0 0.2 0.8 0
+  OF AddPoint 188.0 0.734375
+  CF AddRGBPoint 189.0 0.211765 0.788235 0
+  OF AddPoint 189.0 0.738281
+  CF AddRGBPoint 190.0 0.223529 0.776471 0
+  OF AddPoint 190.0 0.742188
+  CF AddRGBPoint 191.0 1 0.764706 0
+  OF AddPoint 191.0 0.746094
+  CF AddRGBPoint 192.0 1 0.752941 0
+  OF AddPoint 192.0 0.75
+  CF AddRGBPoint 193.0 1 0.741176 0
+  OF AddPoint 193.0 0.753906
+  CF AddRGBPoint 194.0 1 0.729412 0
+  OF AddPoint 194.0 0.757812
+  CF AddRGBPoint 195.0 1 0.717647 0
+  OF AddPoint 195.0 0.761719
+  CF AddRGBPoint 196.0 1 0.705882 0
+  OF AddPoint 196.0 0.765625
+  CF AddRGBPoint 197.0 1 0.694118 0
+  OF AddPoint 197.0 0.769531
+  CF AddRGBPoint 198.0 1 0.682353 0
+  OF AddPoint 198.0 0.773438
+  CF AddRGBPoint 199.0 1 0.670588 0
+  OF AddPoint 199.0 0.777344
+  CF AddRGBPoint 200.0 1 0.658824 0
+  OF AddPoint 200.0 0.78125
+  CF AddRGBPoint 201.0 1 0.647059 0
+  OF AddPoint 201.0 0.785156
+  CF AddRGBPoint 202.0 1 0.635294 0
+  OF AddPoint 202.0 0.789062
+  CF AddRGBPoint 203.0 1 0.623529 0
+  OF AddPoint 203.0 0.792969
+  CF AddRGBPoint 204.0 0.388235 0.611765 0
+  OF AddPoint 204.0 0.796875
+  CF AddRGBPoint 205.0 0.4 0.6 0
+  OF AddPoint 205.0 0.800781
+  CF AddRGBPoint 206.0 0.411765 0.588235 0
+  OF AddPoint 206.0 0.804688
+  CF AddRGBPoint 207.0 0.423529 0.576471 0
+  OF AddPoint 207.0 0.808594
+  CF AddRGBPoint 208.0 0.435294 0.564706 0
+  OF AddPoint 208.0 0.8125
+  CF AddRGBPoint 209.0 0.447059 0.552941 0
+  OF AddPoint 209.0 0.816406
+  CF AddRGBPoint 210.0 0.458824 0.541176 0
+  OF AddPoint 210.0 0.820312
+  CF AddRGBPoint 211.0 0.470588 0.529412 0
+  OF AddPoint 211.0 0.824219
+  CF AddRGBPoint 212.0 0.482353 0.517647 0
+  OF AddPoint 212.0 0.828125
+  CF AddRGBPoint 213.0 0.494118 0.505882 0
+  OF AddPoint 213.0 0.832031
+  CF AddRGBPoint 214.0 0.505882 0.494118 0
+  OF AddPoint 214.0 0.835938
+  CF AddRGBPoint 215.0 0.517647 0.482353 0
+  OF AddPoint 215.0 0.839844
+  CF AddRGBPoint 216.0 0.529412 0.470588 0
+  OF AddPoint 216.0 0.84375
+  CF AddRGBPoint 217.0 0.541176 0.458824 0
+  OF AddPoint 217.0 0.847656
+  CF AddRGBPoint 218.0 0.552941 0.447059 0
+  OF AddPoint 218.0 0.851562
+  CF AddRGBPoint 219.0 0.564706 0.435294 0
+  OF AddPoint 219.0 0.855469
+  CF AddRGBPoint 220.0 0.576471 0.423529 0
+  OF AddPoint 220.0 0.859375
+  CF AddRGBPoint 221.0 0.588235 0.411765 0
+  OF AddPoint 221.0 0.863281
+  CF AddRGBPoint 222.0 0.6 0.4 0
+  OF AddPoint 222.0 0.867188
+  CF AddRGBPoint 223.0 0.611765 0.388235 0
+  OF AddPoint 223.0 0.871094
+  CF AddRGBPoint 224.0 0.623529 0.376471 0
+  OF AddPoint 224.0 0.875
+  CF AddRGBPoint 225.0 0.635294 0.364706 0
+  OF AddPoint 225.0 0.878906
+  CF AddRGBPoint 226.0 0.647059 0.352941 0
+  OF AddPoint 226.0 0.882812
+  CF AddRGBPoint 227.0 0.658824 0.341176 0
+  OF AddPoint 227.0 0.886719
+  CF AddRGBPoint 228.0 0.670588 0.329412 0
+  OF AddPoint 228.0 0.890625
+  CF AddRGBPoint 229.0 0.682353 0.317647 0
+  OF AddPoint 229.0 0.894531
+  CF AddRGBPoint 230.0 0.694118 0.305882 0
+  OF AddPoint 230.0 0.898438
+  CF AddRGBPoint 231.0 0.705882 0.294118 0
+  OF AddPoint 231.0 0.902344
+  CF AddRGBPoint 232.0 0.717647 0.282353 0
+  OF AddPoint 232.0 0.90625
+  CF AddRGBPoint 233.0 0.729412 0.270588 0
+  OF AddPoint 233.0 0.910156
+  CF AddRGBPoint 234.0 0.741176 0.258824 0
+  OF AddPoint 234.0 0.914062
+  CF AddRGBPoint 235.0 0.752941 0.247059 0
+  OF AddPoint 235.0 0.917969
+  CF AddRGBPoint 236.0 0.764706 0.235294 0
+  OF AddPoint 236.0 0.921875
+  CF AddRGBPoint 237.0 0.776471 0.223529 0
+  OF AddPoint 237.0 0.925781
+  CF AddRGBPoint 238.0 0.788235 0.211765 0
+  OF AddPoint 238.0 0.929688
+  CF AddRGBPoint 239.0 0.8 0.2 0
+  OF AddPoint 239.0 0.933594
+  CF AddRGBPoint 240.0 0.811765 0.188235 0
+  OF AddPoint 240.0 0.9375
+  CF AddRGBPoint 241.0 0.823529 0.176471 0
+  OF AddPoint 241.0 0.941406
+  CF AddRGBPoint 242.0 0.835294 0.164706 0
+  OF AddPoint 242.0 0.945312
+  CF AddRGBPoint 243.0 0.847059 0.152941 0
+  OF AddPoint 243.0 0.949219
+  CF AddRGBPoint 244.0 0.858824 0.141176 0
+  OF AddPoint 244.0 0.953125
+  CF AddRGBPoint 245.0 0.870588 0.129412 0
+  OF AddPoint 245.0 0.957031
+  CF AddRGBPoint 246.0 0.882353 0.117647 0
+  OF AddPoint 246.0 0.960938
+  CF AddRGBPoint 247.0 0.894118 0.105882 0
+  OF AddPoint 247.0 0.964844
+  CF AddRGBPoint 248.0 0.905882 0.0941176 0
+  OF AddPoint 248.0 0.96875
+  CF AddRGBPoint 249.0 0.917647 0.0823529 0
+  OF AddPoint 249.0 0.972656
+  CF AddRGBPoint 250.0 0.929412 0.0705882 0
+  OF AddPoint 250.0 0.976562
+  CF AddRGBPoint 251.0 0.941176 0.0588235 0
+  OF AddPoint 251.0 0.980469
+  CF AddRGBPoint 252.0 0.952941 0.0470588 0
+  OF AddPoint 252.0 0.984375
+  CF AddRGBPoint 253.0 0.964706 0.0352941 0
+  OF AddPoint 253.0 0.988281
+  CF AddRGBPoint 254.0 0.976471 0.0235294 0
+  OF AddPoint 254.0 0.992188
+  CF AddRGBPoint 255.0 0.988235 0.0117647 0
+  OF AddPoint 255.0 0.996094
+
+# The property describes how the data will look
+vtkVolumeProperty volumeProperty
+    volumeProperty SetColor CF
+    volumeProperty SetScalarOpacity OF
+
+# The mapper knows how to render the data
+vtkFlowVRVolumeMapper volumeMapper
+    volumeMapper SetInput [reader GetOutput]
+    volumeMapper SetQuality 1
+    volumeMapper SetSteps 200
+#    volumeMapper SetShader shaders/volume_vtk_preint_fast_p.cg
+
+# The volume holds the mapper and the property and
+# can be used to position/orient the volume
+vtkVolume volume
+    volume SetMapper volumeMapper
+    volume SetProperty volumeProperty
+
+ren1 AddVolume volume
+
+# The outline provides context for the data
+vtkOutlineFilter outline
+    outline SetInput [reader GetOutput]
+vtkPolyDataMapper outlineMapper
+    outlineMapper SetInput [outline GetOutput]
+vtkActor outlineActor
+    outlineActor SetMapper outlineMapper
+    [outlineActor GetProperty] SetColor 0 0 0
+
+#ren1 AddProp outlineActor
+
+module Initialize
+
+module Start renWin
+
+# prevent the tk window from showing up then start the event loop
+wm withdraw .
+

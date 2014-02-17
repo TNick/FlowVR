@@ -1,0 +1,166 @@
+//////////////////////////////////////////////////////////////////////
+// Generic Vertex Shader
+//
+// This shader supports many features
+// controlled by preprocessor flags:
+//
+// TEX0 : texture coordinates
+// COLOR : per-vertex color (defined by default if TEX0 is not set)
+// TANGENT : tangent-space lighting (for normalmap in pixel shader)
+// SPECULAR : view vector (for specular highlights in pixel shader)
+// SHADOW : number of active shadowmaps
+// REFLECT : reflection on the Z axis with clipping at Z=0
+//
+// To use any of these flags you can define them before including
+// this shader's code, or use the obj_*_v.cg shaders.
+//
+//////////////////////////////////////////////////////////////////////
+
+#ifndef SHADOW
+#define SHADOW 0
+#endif
+
+#ifndef TEX0
+#define COLOR 1
+#endif
+
+
+void main(
+
+//
+// Inputs
+//
+
+          float4 position     : POSITION,
+          float3 normal       : NORMAL,
+#ifdef COLOR
+          half4 color         : COLOR0,
+#endif
+#ifdef TEX0
+          float2 texcoord0    : TEXCOORD0,
+#endif
+#ifdef TANGENT
+          float4 tangent      : TEXCOORD1,
+#endif
+
+//
+// Parameters
+//
+
+	  uniform float4 light0 = float4(-0.2,-1,2,1),
+	  uniform float4 light1 = float4(0,10,4,1),
+#if SHADOW > 0
+	  uniform float4x4 LightProj0,
+#endif
+#if SHADOW > 1
+	  uniform float4x4 LightProj1,
+#endif
+
+	  uniform float4x4 Model,
+#ifdef REFLECT
+	  uniform float4x4 ViewProj,
+#else
+	  uniform float4x4 ModelViewProj,
+#endif
+//	  uniform float4x4 ModelIT,
+#define ModelIT Model // we only use ModelIT for normals, so it is equivalent if scaling is uniform
+#ifdef SPECULAR
+	  uniform float4x4 ViewIT,
+#endif
+
+//
+// Outputs
+//
+
+#ifdef COLOR
+      out half4 pcolor       : COLOR0,
+#endif
+#ifdef TEX0
+      out float2 ptex0        : TEXCOORD0,
+#endif
+#ifndef TANGENT
+      out half3 pnormal       : TEXCOORD1,
+#endif
+      out half3 plight0       : TEXCOORD2,
+      out half3 plight1       : TEXCOORD3,
+#ifdef SPECULAR
+      out half3 pview         : TEXCOORD4,
+#endif
+#if SHADOW > 0
+      out float4 pshadow0     : TEXCOORD5,
+#endif
+#if SHADOW > 1
+      out float4 pshadow1     : TEXCOORD6,
+#endif
+#ifdef REFLECT
+      out float pclip         : CLP0,
+#endif
+      out float4 ppos         : POSITION)
+{
+
+  //
+  // Transform vertex position
+  //
+
+  float4 worldpos = mul(Model, position);
+#ifdef REFLECT
+  ppos = mul(ViewProj, worldpos*float4(1,1,-1,1));
+  pclip = worldpos.z;
+#else
+  ppos = mul(ModelViewProj, position);
+#endif
+
+  //
+  // Compute vectors for lighting (normal, light, eye), either in world or tangent space
+  //
+
+#ifdef TANGENT
+  float3x3 M; // world space to tangent space
+  M[0] = mul((float3x3)ModelIT, tangent.xyz);
+  M[2] = mul((float3x3)ModelIT, normal);
+  M[1] = cross(M[2],M[0])*tangent.w; // bitangent
+#ifdef SPECULAR
+#ifdef REFLECT
+  pview = mul(M, ViewIT[3].xyz*float3(1,1,-1) - worldpos.xyz); //position;
+#else
+  pview = mul(M, ViewIT[3].xyz - worldpos.xyz); //position;
+#endif
+#endif
+  plight0 = mul(M, light0.xyz - worldpos.xyz*light0.w);
+  plight1 = mul(M, light1.xyz - worldpos.xyz*light1.w);
+#else //TANGENT
+  pnormal = mul((float3x3)ModelIT, normal);
+#ifdef SPECULAR
+#ifdef REFLECT
+  pview = ViewIT[3].xyz*float3(1,1,-1) - worldpos.xyz; //position;
+#else
+  pview = ViewIT[3].xyz - worldpos.xyz; //position;
+#endif
+#endif //SPECULAR
+  plight0 = light0.xyz - worldpos.xyz*light0.w;
+  plight1 = light1.xyz - worldpos.xyz*light1.w;
+#endif //TANGENT
+
+  //
+  // Compute shadow coordinates
+  //
+
+#if SHADOW > 0
+  pshadow0 = mul(LightProj0, worldpos);
+  pshadow0.z -= pshadow0.w*0.0002;
+#endif
+#if SHADOW > 1
+  pshadow1 = mul(LightProj1, worldpos);
+  pshadow1.z -= pshadow1.w*0.0002;
+#endif
+
+  //
+  // Forward extra attributes to pixel shader
+  //
+#ifdef COLOR
+  pcolor = color;
+#endif
+#ifdef TEX0
+  ptex0 = texcoord0;
+#endif
+}

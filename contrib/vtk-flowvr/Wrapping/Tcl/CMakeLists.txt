@@ -1,0 +1,16 @@
+#CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/MakePackages.tcl ${CMAKE_BINARY_DIR}/share/vtk-flowvr/Tcl/MakePackages.tcl COPYONLY)
+FOREACH(target vtkflowvr vtkflowvrrender)
+  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/${target}/${target}.tcl ${CMAKE_BINARY_DIR}/share/vtk-flowvr/Tcl/${target}/${target}.tcl COPYONLY)
+  INSTALL(FILES ${CMAKE_BINARY_DIR}/share/vtk-flowvr/Tcl/${target}/${target}.tcl DESTINATION share/vtk-flowvr/Tcl/${target})
+ENDFOREACH(target)
+
+EXECUTE_PROCESS(COMMAND wish ${CMAKE_CURRENT_SOURCE_DIR}/MakePackages.tcl WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/share/vtk-flowvr/Tcl RESULT_VARIABLE result OUTPUT_VARIABLE output ERROR_VARIABLE output)
+IF(result)
+  MESSAGE(SEND_ERROR "An error has occured while indexing Tcl packages")
+ELSE(result)
+  INSTALL(FILES vtkflowvr/pkgIndex.tcl DESTINATION share/vtk-flowvr/Tcl/vtkflowvr)
+  INSTALL(FILES vtkflowvrrender/pkgIndex.tcl DESTINATION share/vtk-flowvr/Tcl/vtkflowvrrender)
+ENDIF(result)
+
+ADD_SUBDIRECTORY(vtkflowvr)
+ADD_SUBDIRECTORY(vtkflowvrrender)

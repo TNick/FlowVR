@@ -1,0 +1,15 @@
+// Default Pixel Shader
+// Color + Per-pixel diffuse shading
+
+float4 main(
+         float3 pnormal      : TEXCOORD0,
+         half4 pcolor       : COLOR,
+         uniform float3 lightdir
+  ) : COLOR
+{
+  half4 C = pcolor;
+  float3 N = normalize(pnormal);
+  half diffuse = (half) saturate(dot(N,lightdir));
+  C.xyz = C.xyz*(0.5*diffuse+0.5);
+  return C;
+}

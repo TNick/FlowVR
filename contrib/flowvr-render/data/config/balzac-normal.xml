@@ -1,0 +1,25 @@
+<config>
+	<ports >
+		<port name="scene" direction="in" flags="eventsource" stamps="scenestamps"/>
+		<port name="viewport" direction="out" export="true"/>
+		<port name="devices" direction="out" export="true"/>
+	</ports>
+	<stamplists>
+		<stamplist name="scenestamps" from="scenestamptypes.xml"/>
+	</stamplists>
+	<code>
+		<path name="vpchange" plugin="vpout" out="viewport"/>
+		<path name="scene" plugin="normalscene" in="scene"/>
+		<path name="devices" plugin="devicesput" out="devices"/>
+		<!--<path name="defaultkeys" plugin="defaultkeys"/>-->
+	</code>
+	<plugins>
+		<plugin name="devicesput" so="devicesPlug" service="Balzac"/>
+		<plugin name="vpout" so="vpchangePlug" service="Balzac"/>
+		<plugin name="normalscene" so="scenedispatchPlug" service="Balzac"/>
+		<!--<plugin name="defaultkeys" so="defaultkeyactionsPlug" service="Balzac"/>-->		
+	</plugins>
+	<services>
+		<service name="Balzac" so="libflowvr-balzacservicelayer"/>
+	</services>
+</config>

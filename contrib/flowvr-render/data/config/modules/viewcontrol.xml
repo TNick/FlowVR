@@ -1,0 +1,21 @@
+<config>
+	<ports>
+		<port name="reltransform" direction="in"/>		
+		<port name="current"    direction="out"/>
+		<port name="camera"       direction="out"/>  
+	</ports>
+	<stamplists/>
+	<code>
+		<path name="camprops" plugin="camparams" out="camera"/>
+		<path name="applytrans" plugin="applytrans" in="reltransform"/>
+		<path name="transout" plugin="gettrans" out="current"/>
+	</code>
+	<plugins>
+		<plugin name="camparams" so="setcamerapropsPlug" service="camstate"/>
+		<plugin name="applytrans" so="applyTransformPlug" service="camstate"/>
+		<plugin name="gettrans" so="getTransformPlug" service="camstate"/>
+	</plugins>
+	<services>
+		<service name="camstate"   so="transformstateservice"/>
+	</services>
+</config>

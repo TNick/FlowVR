@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="false" context="org.eclipse.cdt.core.cxxSource.contenttype_context" deleted="false" description="" enabled="true" name="FlowVR - portutils - plugin.source - serviced sink-plug - prm">/******* COPYRIGHT ************************************************
+*                                                                 *
+*                             FlowVR                              *
+                          ${project_name}
+*                                                                 *
+*-----------------------------------------------------------------*
+* COPYRIGHT (C) 2003/2004/2005/2006/2007/2008/2009/2010 by        *
+* INRIA.  ALL RIGHTS RESERVED.                                    *
+*                                                                 *
+* This source is covered by the GNU LGPL, please refer to the     *
+* COPYING file for further information.                           *
+*                                                                 *
+*                                                                 * 
+*******************************************************************
+*                                                                 *
+* File: ${file_name}
+*                                                                 *
+* Contacts: ${user}
+*                                                                 *
+******************************************************************/
+
+
+#include &lt;portutils/portplugin.h&gt;
+#include &lt;portutils/porthandler.h&gt;
+
+extern "C" void getParameters( PortUtils::ARGS &amp;args )
+{
+	// insert parameter here
+}
+
+namespace
+{
+
+	class ${file_base}Handler : public PortUtils::SinkPortHandler
+	{
+	public:
+		${file_base}Handler( &lt;service&gt; *pService, const PortUtils::ARGS &amp;args )
+		: PortUtils::SinkPortHandler()
+		, m_service(pService)
+		{
+			try
+			{
+			}
+			catch( std::exception &amp;e )
+			{
+			}
+		}
+
+		virtual eState handleMessage( const flowvr::Message &amp;in, 
+                                      const flowvr::StampList *stampsIn )
+		{
+			return E_OK;
+		}
+
+
+		&lt;service&gt; *m_service;
+	};
+}
+
+
+DEFIMP_PORTPLUG( ${file_base}Handler, &lt;service&gt;, ${file_base} )
+
+</template><template autoinsert="false" context="org.eclipse.cdt.core.cxxSource.contenttype_context" deleted="false" description="" enabled="true" name="FlowVR - portuils - plugin.source - serviced pipehandler - prm">/******* COPYRIGHT ************************************************
+*                                                                 *
+*                             FlowVR                              *
+                          ${project_name}
+*                                                                 *
+*-----------------------------------------------------------------*
+* COPYRIGHT (C) 2003/2004/2005/2006/2007/2008/2009/2010 by        *
+* INRIA.  ALL RIGHTS RESERVED.                                    *
+*                                                                 *
+* This source is covered by the GNU LGPL, please refer to the     *
+* COPYING file for further information.                           *
+*                                                                 *
+*                                                                 * 
+*******************************************************************
+*                                                                 *
+* File: ${file_name}
+*                                                                 *
+* Contacts: ${user}
+*                                                                 *
+******************************************************************/
+
+
+#include &lt;portutils/portplugin.h&gt;
+#include &lt;portutils/porthandler.h&gt;
+
+extern "C" void getParameters( PortUtils::ARGS &amp;args )
+{
+	// insert parameter here
+}
+
+namespace
+{
+
+	class ${file_base}Handler : public PortUtils::PipeHandler
+	{
+	public:
+		${file_base}Handler( &lt;service&gt; *pService, const PortUtils::ARGS &amp;args )
+		: PortUtils::PipeHandler()
+		, m_service(pService)
+		{
+			try
+			{
+				// parse arguments here
+			}
+			catch( std::exception &amp;e )
+			{
+			}
+		}
+
+		virtual eState handleMessagePipe( const flowvr::Message &amp;m_in,
+				                          const flowvr::StampList *sl_in,
+				                          flowvr::MessageWrite &amp;m_out,
+				                          flowvr::StampList *sl_out,
+				                          flowvr::Allocator &amp;allocator )
+		{
+			return E_OK;
+		}
+
+
+		&lt;service&gt; *m_service;
+	};
+}
+
+
+DEFIMP_PORTPLUG( ${file_base}Handler, &lt;service&gt;, ${file_base} )
+
+</template><template autoinsert="false" context="org.eclipse.cdt.core.cxxSource.contenttype_context" deleted="false" description="" enabled="true" name="FlowVR - portutils - plugin.source - serviced source-plug - prm">/******* COPYRIGHT ************************************************
+*                                                                 *
+*                             FlowVR                              *
+                          ${project_name}
+*                                                                 *
+*-----------------------------------------------------------------*
+* COPYRIGHT (C) 2003/2004/2005/2006/2007/2008/2009/2010 by        *
+* INRIA.  ALL RIGHTS RESERVED.                                    *
+*                                                                 *
+* This source is covered by the GNU LGPL, please refer to the     *
+* COPYING file for further information.                           *
+*                                                                 *
+*                                                                 * 
+*******************************************************************
+*                                                                 *
+* File: ${file_name}
+*                                                                 *
+* Contacts: ${user}
+*                                                                 *
+******************************************************************/
+
+
+#include &lt;portutils/portplugin.h&gt;
+#include &lt;portutils/porthandler.h&gt;
+
+extern "C" void getParameters( PortUtils::ARGS &amp;args )
+{
+	// add parameters here
+}
+
+namespace
+{
+
+	class ${file_base}Handler : public PortUtils::SourcePortHandler
+	{
+	public:
+		${file_base}Handler( &lt;service&gt; *pService, const PortUtils::ARGS &amp;args )
+		: PortUtils::SourcePortHandler()
+		, m_service(pService)
+		{
+			try
+			{
+			}
+			catch( std::exception &amp;e )
+			{
+			}
+		}
+
+		virtual eState handleMessage( flowvr::MessageWrite &amp;out, 
+                                      flowvr::StampList *stampsOut,
+                                      flowvr::Allocator &amp;allocate )
+		{
+			return E_OK;
+		}
+
+
+		&lt;service&gt; *m_service;
+	};
+}
+
+
+DEFIMP_PORTPLUG( ${file_base}Handler, &lt;service&gt;, ${file_base} )
+
+</template><template autoinsert="false" context="org.eclipse.cdt.core.cxxSource.contenttype_context" deleted="false" description="Service source template using service with parameters" enabled="true" name="FlowVR - portutils - service.source - prm">/******* COPYRIGHT ************************************************
+*                                                                 *
+*                             FlowVR                              *
+*                       ${project_name}
+*                                                                 *
+*-----------------------------------------------------------------*
+* COPYRIGHT (C) 2003/2004/2005/2006/2007/2008/2009/2010 by        *
+* INRIA.  ALL RIGHTS RESERVED.                                    *
+*                                                                 *
+* This source is covered by the GNU LGPL, please refer to the     *
+* COPYING file for further information.                           *
+*                                                                 *
+*                                                                 * 
+*******************************************************************
+*                                                                 *
+* File: ${file_name}                                    
+* Contacts: ${user}                                     
+*                                                                 *
+******************************************************************/
+
+#include "${file_base}.h"
+
+
+DEFIMP_SERVICEPLUG(${file_base})
+
+
+${file_base}::${file_base}( PortUtils::Module &amp;m )
+: IServiceLayer(m)
+{
+
+}
+
+${file_base}::~${file_base}()
+{
+}
+
+bool ${file_base}::setParameters( const PortUtils::ARGS &amp; )
+{
+	return true;
+}
+</template><template autoinsert="false" context="org.eclipse.cdt.core.cxxSource.contenttype_context" deleted="false" description="Skeleton for portutils plugin code" enabled="true" name="FlowVR - portutils - plugin.source - serviced sink-plug - noprm">/******* COPYRIGHT ************************************************
+*                                                                 *
+*                             FlowVR                              *
+                          ${project_name}
+*                                                                 *
+*-----------------------------------------------------------------*
+* COPYRIGHT (C) 2003/2004/2005/2006/2007/2008/2009/2010 by        *
+* INRIA.  ALL RIGHTS RESERVED.                                    *
+*                                                                 *
+* This source is covered by the GNU LGPL, please refer to the     *
+* COPYING file for further information.                           *
+*                                                                 *
+*                                                                 * 
+*******************************************************************
+*                                                                 *
+* File: ${file_name}
+*                                                                 *
+* Contacts: ${user}
+*                                                                 *
+******************************************************************/
+
+
+#include &lt;portutils/portplugin.h&gt;
+#include &lt;portutils/porthandler.h&gt;
+
+namespace
+{
+
+	class ${file_base}Handler : public PortUtils::SinkPortHandler
+	{
+	public:
+		${file_base}Handler( &lt;service&gt; *pService, const PortUtils::ARGS &amp;args )
+		: PortUtils::SinkPortHandler()
+		, m_service(pService)
+		{
+		}
+
+		virtual eState handleMessage( const flowvr::Message &amp;in, 
+                                      const flowvr::StampList *stampsIn )
+		{
+			return E_OK;
+		}
+
+
+		&lt;service&gt; *m_service;
+	};
+}
+
+
+DEFIMP_PORTPLUG_NOPRM( ${file_base}Handler, &lt;service&gt;, ${file_base} )
+
+</template><template autoinsert="false" context="org.eclipse.cdt.core.cxxSource.contenttype_context" deleted="false" description="" enabled="true" name="FlowVR - portuils - plugin.source - serviced pipehandler - noprm">/******* COPYRIGHT ************************************************
+*                                                                 *
+*                             FlowVR                              *
+                          ${project_name}
+*                                                                 *
+*-----------------------------------------------------------------*
+* COPYRIGHT (C) 2003/2004/2005/2006/2007/2008/2009/2010 by        *
+* INRIA.  ALL RIGHTS RESERVED.                                    *
+*                                                                 *
+* This source is covered by the GNU LGPL, please refer to the     *
+* COPYING file for further information.                           *
+*                                                                 *
+*                                                                 * 
+*******************************************************************
+*                                                                 *
+* File: ${file_name}
+*                                                                 *
+* Contacts: ${user}
+*                                                                 *
+******************************************************************/
+
+
+#include &lt;portutils/portplugin.h&gt;
+#include &lt;portutils/porthandler.h&gt;
+
+namespace
+{
+
+	class ${file_base}Handler : public PortUtils::PipeHandler
+	{
+	public:
+		${file_base}Handler( &lt;service&gt; *pService, const PortUtils::ARGS &amp;args )
+		: PortUtils::PipeHandler()
+		, m_service(pService)
+		{
+		}
+
+		virtual eState handleMessagePipe( const flowvr::Message &amp;m_in,
+				                          const flowvr::StampList *sl_in,
+				                          flowvr::MessageWrite &amp;m_out,
+				                          flowvr::StampList *sl_out,
+				                          flowvr::Allocator &amp;allocator )
+		{
+			return E_OK;
+		}
+
+
+		&lt;service&gt; *m_service;
+	};
+}
+
+
+DEFIMP_PORTPLUG_NOPRM( ${file_base}Handler, &lt;service&gt;, ${file_base} )
+
+</template><template autoinsert="false" context="org.eclipse.cdt.core.cxxSource.contenttype_context" deleted="false" description="" enabled="true" name="FlowVR - portutils - plugin.source - serviced source-plug - noprm">/******* COPYRIGHT ************************************************
+*                                                                 *
+*                             FlowVR                              *
+                          ${project_name}
+*                                                                 *
+*-----------------------------------------------------------------*
+* COPYRIGHT (C) 2003/2004/2005/2006/2007/2008/2009/2010 by        *
+* INRIA.  ALL RIGHTS RESERVED.                                    *
+*                                                                 *
+* This source is covered by the GNU LGPL, please refer to the     *
+* COPYING file for further information.                           *
+*                                                                 *
+*                                                                 * 
+*******************************************************************
+*                                                                 *
+* File: ${file_name}
+*                                                                 *
+* Contacts: ${user}
+*                                                                 *
+******************************************************************/
+
+
+#include &lt;portutils/portplugin.h&gt;
+#include &lt;portutils/porthandler.h&gt;
+
+namespace
+{
+
+	class ${file_base}Handler : public PortUtils::SourcePortHandler
+	{
+	public:
+		${file_base}Handler( &lt;service&gt; *pService, const PortUtils::ARGS &amp;args )
+		: PortUtils::SourcePortHandler()
+		, m_service(pService)
+		{
+		}
+
+		virtual eState handleMessage( flowvr::MessageWrite &amp;out, 
+                                      flowvr::StampList *stampsOut,
+                                      flowvr::Allocator &amp;allocate )
+		{
+			return E_OK;
+		}
+
+
+		&lt;service&gt; *m_service;
+	};
+}
+
+
+DEFIMP_PORTPLUG_NOPRM( ${file_base}Handler, &lt;service&gt;, ${file_base} )
+
+</template></templates>

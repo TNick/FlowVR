@@ -1,0 +1,20 @@
+// Simple Point Vertex Shader
+
+void main(
+  float4 position    : POSITION,
+  float4 color        : COLOR,
+  float2 tex0         : TEXCOORD0,
+  uniform float4x4 ModelViewProj,
+  uniform float4x4 ModelView,
+  uniform float size = 40.0,
+      out float psize        : PSIZE,
+      out half4 pcolor       : COLOR,
+      out float4 ppos        : POSITION,
+      out half2 ptex0        : TEXCOORD0)
+{
+  ppos = mul(ModelViewProj, position);
+  float4 p = mul(ModelView, position);
+  psize = size * p.w / -p.z;
+  pcolor = float4(color.xyz,0.5);
+  ptex0 = tex0;
+}

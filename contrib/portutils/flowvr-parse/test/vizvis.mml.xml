@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE metamodulelist  SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/metamodulelist.dtd" >
+
+<metamodulelist>
+  <template id="out">GLOBAL TEMPLATE</template>
+      <host>node10</host> 
+  <metamodule id="vision">
+      <metamoduledescription id="vision1">vision.desc.xml</metamoduledescription>
+      <host>node1</host> 
+      <host id="camera2">node2</host> 
+      <host>node3</host> 
+      <run><template id="A">RUN</template></run>
+      <modulelist><template id="A">MODULELIST</template></modulelist>
+  </metamodule>
+
+  <metamodule id="vizu">
+      <metamoduledescription>viz.desc.xml</metamoduledescription>
+      <template id="projcttype">LCD</template>
+      <host>node2</host> 
+      <host id="projct1">node1</host> 
+      <host>node3</host> 
+      <run/>
+      <modulelist/>
+  </metamodule>
+</metamodulelist>

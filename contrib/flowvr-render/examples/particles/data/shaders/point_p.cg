@@ -1,0 +1,8 @@
+// Simple Mesh Pixel Shader
+
+half4 main(
+      uniform half4 color = half4(0,1,0,1)
+  ) : COLOR
+{
+  return color;
+}

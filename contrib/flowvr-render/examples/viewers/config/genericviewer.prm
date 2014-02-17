@@ -1,0 +1,135 @@
+genericviewer/renderer:interface=balzac-normal-withbg.xml
+genericviewer/renderer/BalzacBasic/BalzacRenderer:plugins-bgimage-IMAGENAME=images/flowvr-logo-hr.png
+
+genericviewer/renderer:services-Balzac-displayfile=./config/balzac-config.xml
+
+genericviewer/renderer/navigate:plugins-setcamparams-POSITION=0.5,-1,2
+genericviewer/renderer/navigate:plugins-setcamparams-UPVECTOR=0,0,1
+genericviewer/renderer/navigate:plugins-setcamparams-CENTER=0,1,0
+
+# ROTOFFSET is always local in viewdirection
+genericviewer/renderer/navigate:plugins-mousecam-ROTOFFSET=0,0,-2
+
+
+## APPLICATION SPECIFIC SETTINGS
+genericviewer/viewer:cmdline=fire
+genericviewer/ff:freq=20
+
+
+############################ KEYBOARDMAPPING ###########################
+## GIVE ANY ASCII-MAPPED (NORMAL) KEYCODE AS A STRING
+## ONLY THE FIRST CHARACTER IS RECOGNIZED
+########################################################################
+
+# plugins-keydispatch -- BACKWARD: 
+# Backward trigger
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-BACKWARD=s
+
+# plugins-keydispatch -- DOWN: 
+# Downward trigger
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-DOWN=c
+
+# plugins-keydispatch -- FORWARD: 
+# Forward trigger
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-FORWARD=w
+
+# plugins-keydispatch -- RESET: 
+# Reset trigger
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-RESET=r
+
+# plugins-keydispatch -- ROLL_LEFT: 
+# Roll left
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-ROLL_LEFT=4
+
+# plugins-keydispatch -- ROLL_RIGHT: 
+# Roll right
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-ROLL_RIGHT=5
+
+# plugins-keydispatch -- STRAFE_LEFT: 
+# Strafe left
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-STRAFE_LEFT=a
+
+# plugins-keydispatch -- STRAFE_RIGHT: 
+# Strafe right
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-STRAFE_RIGHT=d
+
+# plugins-keydispatch -- TURN_DOWN: 
+# Rotate down trigger
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-TURN_DOWN=3
+
+# plugins-keydispatch -- TURN_LEFT: 
+# Turn left
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-TURN_LEFT=q
+
+# plugins-keydispatch -- TURN_RIGHT: 
+# Turn right
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-TURN_RIGHT=e
+
+# plugins-keydispatch -- TURN_UP: 
+# Rotate up trigger
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-TURN_UP=1
+
+# plugins-keydispatch -- UP: 
+# Upward trigger
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-UP=z
+
+############### META-KEYS ##################################
+
+# plugins-keydispatch -- VERBOSE: 
+# Verbose mode
+# TYPE: BOOLEAN ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-VERBOSE=false
+
+# plugins-keydispatch -- DECRSCALE: 
+# Decrease rotation scale
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-DECRSCALE==
+
+# plugins-keydispatch -- DECTSCALE: 
+# Decrease translation scale
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-DECTSCALE=]
+
+# plugins-keydispatch -- INCRSCALE: 
+# Increase rotation scale
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-INCRSCALE=-
+
+# plugins-keydispatch -- INCTSCALE: 
+# Increase translation scale
+# TYPE: STRING ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-INCTSCALE=[
+
+# plugins-keydispatch -- RSCALE: 
+# Rotation scale factor
+# TYPE: NUMBER ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-RSCALE=1
+
+# plugins-keydispatch -- RSCALEFACTOR: 
+# Factor to increase / decrease rotation scale
+# TYPE: NUMBER ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-RSCALEFACTOR=0.01
+
+# plugins-keydispatch -- TSCALE: 
+# Transform scale factor
+# TYPE: NUMBER ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-TSCALE=1
+
+# plugins-keydispatch -- TSCALEFACTOR: 
+# Factor to increase / decrease translation scale
+# TYPE: NUMBER ; MODE = OPTIONAL
+genericviewertest/renderer/navigate:plugins-keydispatch-TSCALEFACTOR=0.01
+

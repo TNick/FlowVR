@@ -1,0 +1,224 @@
+<html>
+  <head>
+    <title>Flowvr-appy/render tutorial</title>
+  <style type="text/css">
+body{counter-reset: section}
+   h2{counter-reset: sub-section}
+   h3{counter-reset: composite}
+   h4{counter-reset: detail}
+
+   h2:before{
+     counter-increment: section;
+     content: counter(section) " ";
+   }
+   h3:before{
+     counter-increment: sub-section;
+     content: counter(section) "." counter(sub-section) " ";
+   }
+   h4:before{
+     counter-increment: composite;
+     content: counter(section) "." counter(sub-section) "." counter(composite) " ";
+   }
+   h5:before{
+     counter-increment: detail;
+     content: counter(section) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";
+   }
+   pre {
+     background: #e0ffe0;
+   }
+   i {
+     # background: #f0f0f0;
+     color: #000080;
+     # font-variant: small-caps;
+     # font-weight: bold;     
+     # font-style: oblique; 
+     #font-style: normal; 
+   }
+</style>
+  </head>
+
+<body>
+<center>
+<h1>Graphical apps: FlowVR-Render</h1>
+</center>
+
+FlowVR has a contrib component for handling 3D scenes: 
+<ul>
+      <li> <b>render messages</b> convey the 3D scene description as a
+      mesh (= an array of points and facets, and sometimes a texture)
+      and associated shaders (written in nVidia's CUDA language).
+
+      <li> the <b>FlowVR renderer</b> is a module that can display the
+      render messages. The current renderer implementation is
+      <b>Balzac</b>.
+
+      <li> by convention, modules that produce the 3D scene
+      information are called <b>viewers</b>.
+</ul>
+Before using FlowVR render, make sure you source
+<code>flowvr-render-config.sh</code> from FlowVR's install dir (in
+addition to setting up the PYTHONPATH as expained <a href="#configpy">here</a>) .
+
+
+<h3>Simple example</h3>
+
+The simplest example is to make a viewer module that produces a 3D
+mesh and sends it to the FlowVR renderer.
+
+<p>
+Example viewers can be found in <code>&lt;flowvr source
+dir&gt;/flowvr-render/examples/tutorial</code>. From This directory, run
+<br>
+<pre>
+bash make_app.sh
+</pre>
+<br>
+This produces a few viewer modules in the <code>bin/</code> subdirectory. To use them: 
+<pre>
+from flowvrapp import *
+from balzac import *
+
+renderer = BalzacLostInSpaceViewer("renderer")
+
+# bin/viewercube is the viewer executable
+viewer = Module("viewer", cmdline = "bin/viewercube")
+viewer.addPort("scene")
+
+viewer.getPort("scene").link(renderer.new_scene_port())
+
+app.generate_xml("rendertut")
+</pre>
+<a href="render_tut_0.py" type="text/x-script.phyton">code</a>
+
+<p>
+Notes: 
+<ul>
+      <li> the BalzacLostInSpaceViewer composite is the FlowVR renderer
+
+      <li> by convention, viewers ouptut their render messages to the
+      <i>scene</i> port.
+
+      <li> the BalzacLostInSpaceViewer can have several input ports to
+      connect multiple viewers. A new port is obtained with
+      <code>new_scene_port</code>.
+</ul>
+
+<p>
+Run the script and the app with: 
+<pre>
+python render_tut_0.py 
+flowvr rendertut
+</pre>
+
+This should show a graphical window. After moving around dragging with
+the three mouse buttons, you get something like:
+<p>
+<img src="render_tut_0.png">
+
+<p>
+Two other example viewers are available in the tutorial. See the Latex
+documentation in the <code>doc/</code> subdirectory for more
+information on the internals of viewer modules.
+
+
+
+<h3>Portutils</h3>
+
+Portutils is way of sharing same code for the module and its FlowVR
+app side. The information for a given module is spread across two
+files:
+<ul>
+      <li> an XML configuration file that defines the module's ports,
+      and <b>plugins</b>;
+
+      <li> a dynamic library (<code>.so</code> extension) compiled
+      from the module code.
+        
+</ul>
+
+Balzac relies on Portutils for the <code>LostInSpaceViewer</code>.
+
+<h4>Portutils arguments</h4>
+
+<p>
+Portutils defines a way to transmit configuration paramters (called
+<b>arguments</b>) from FlowvrApp to the Portutils modules.
+
+The LostInSpaceViewer contains a separate module, <i>navcomp</i>, to
+convert key and mouse events into camera motion.  The initial position
+of the camera is an argument of <i>navcomp</i>. We can therefore
+correct the intial view of the cube in the previous example with:
+<pre>
+...
+# get the navigation module
+navcomp = renderer.navcomp
+
+# list its arguments
+print navcomp.args
+
+# get the position parameter
+print "position =", navcomp.get_arg('plugins-setcamparams-POSITION')
+
+# change it 
+navcomp.set_arg('plugins-setcamparams-POSITION', [0, 0, -10])
+...
+</pre>
+<a href="render_tut_2.py" type="text/x-script.phyton">code</a>
+
+
+
+<h4>Portutils viewers</h4>
+
+An example viewer defined as a plugin is the multitexture example. It
+can be used with: 
+<pre>
+from portutils import *
+...
+viewer = PortModule("tutorial/sceneproducer", "config/multitexture.xml")
+...
+</pre>
+<a href="render_tut_1.py" type="text/x-script.phyton">code</a>
+
+<p>
+The file <code>config/multitexture.xml</code> contains the reference
+to the <code>.so</code> file that defines the module. Several paths
+must be updated for the app to work:
+<pre>
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:lib/
+export FLOWVR_DATA_PATH=$FLOWVR_DATA_PATH:data/
+</pre>
+
+<p>
+The multitexture example shows a wood texture filtered partially
+masked out by another one. See comments in 
+<code>src/multitexture/multitextureViewerPlug.cpp</code> for more info.
+
+
+
+
+<h3>Animation</h3>
+
+Each element (mesh, texture, shader) in a render scene is identified
+by an integer ID. The renderer shows all the elements that were input
+at some point to its ports. To animate eg. a mesh, the viewer just
+needs to send the successive versions of the mesh, using the same ID,
+so that a new version overwrites an old one.
+
+<p>
+In the textureupdate example, a texture cycles though 3 images. The
+<code>SyncMaxFrequency</code> ensures that updates do occur at no more
+than 4 Hz.
+<pre>
+...
+viewer = PortModule("tutorial/sceneproducer", "config/textureupdate.xml")
+
+mf = filters.SyncMaxFrequency("maxfreq")
+mf.parameters["freq"] = 4
+mf.getPort("out").link(viewer.getPort("beginIt"))
+viewer.getPort("endIt").link(mf.getPort("endIt"))
+...
+</pre>
+<a href="render_tut_3.py" type="text/x-script.phyton">code</a>
+
+</body>
+</html>

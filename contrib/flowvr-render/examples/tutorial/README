@@ -1,0 +1,31 @@
+FlowVR-render tutorial
+
+type
+
+ ./make-app.sh
+ 
+first to compile the examples in this directory.
+
+type
+
+ . ./bin/tutorial-config.sh
+ 
+to source the environment variables needed.
+
+
+To launch the example, type:
+ flowvrd & ; sleep 1 ; flowvr -x -L -Ptutorial:example=1 -Q config/tutorial.prm Tutorial
+ 
+(only the last part will launch the application. The flowvrd is however
+needed to run while the application is launched).
+
+The launch script is copied to the flowvr-install dir upon installation.
+ 
+You can switch the tutorial example with the example parameter:
+
+- tutorial:example=1: a cube (you can rotate it)
+- tutorial:example=2: a model (obj) that is loaded
+- tutorial:example=3: a textured quad
+
+Any other number will launch example 1 (the cube).
+

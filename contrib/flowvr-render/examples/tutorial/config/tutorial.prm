@@ -1,0 +1,13 @@
+tutorial:example=1
+
+tutorial/renderer:interface=./config/balzac-scene.xml
+tutorial/renderer/BalzacBasic/BalzacRenderer:plugins-bgimage-IMAGENAME=images/flowvr-logo-hr.png
+
+tutorial/renderer:services-Balzac-displayfile=./config/balzac-config.xml
+
+tutorial/renderer/navigate:plugins-setcamparams-POSITION=0,0,4
+tutorial/renderer/navigate:plugins-setcamparams-UPVECTOR=0,1,0
+tutorial/renderer/navigate:plugins-setcamparams-CENTER=0,0,0
+
+tutorial/renderer/navigate:plugins-mousecam-ROTOFFSET=0,0,-4
+

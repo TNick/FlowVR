@@ -1,0 +1,11 @@
+particles:freq=500
+particles:version=2
+
+particles/renderer:services-Balzac-displayfile=./config/balzac-config.xml
+
+particles/renderer/navigate:plugins-setcamparams-POSITION=0,-15,0
+particles/renderer/navigate:plugins-setcamparams-UPVECTOR=0,0,1
+particles/renderer/navigate:plugins-setcamparams-CENTER=0,0,0
+
+# the ROTOFFSET is always local in view-space! (-15 is 15 units ahead!)
+particles/renderer/navigate:plugins-mousecam-ROTOFFSET=0,0,-15

@@ -1,0 +1,15 @@
+// Volume Vertex Shader
+
+void main(
+  float4 position    : POSITION,
+  out float4 ppos    : POSITION,
+  uniform float4x4 ModelViewProjI,
+  uniform float4x4 ModelViewI,
+  uniform float4x4 Proj,
+  out float4 ray_o   : TEXCOORD0,
+  out float3 ray_d   : TEXCOORD1)
+{
+  ppos = mul(Proj, position);
+  ray_o = mul(ModelViewI, float4(0,0,0,1)); //position);
+  ray_d = mul((float3x3)ModelViewI, (float3)position);
+}

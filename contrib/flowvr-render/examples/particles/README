@@ -1,0 +1,25 @@
+FlowVR-render example.
+
+Compilation script:
+
+ ./make-app.sh
+ 
+
+Environment setting:
+
+ . ./bin/particles-config.sh
+ 
+
+Start a daemon in a separate terminal: 
+
+flowvrd -t 
+
+
+Then start the application: 
+
+flowvr particles
+
+
+You can change the viewer by changing the version parameter in config/particles.prm:
+
+particles:version=1

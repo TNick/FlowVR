@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE metamodulelist  SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/metamodulelist.dtd" >
+<metamodulelist>
+  <metamodule id="Visu">
+    <metamoduledescription>flowvr-renderer.desc.xml</metamoduledescription>
+    <template id="args">--rotateX -90 --rotateY 60</template>
+    <host>localhost</host>
+    <run />
+    <modulelist />
+  </metamodule>
+  <template id="file">$VTK_FLOWVR_DATA_ROOT/fluid3d1.fvr</template>
+  <metamodule id="FluidDistRead">
+    <metamoduledescription>flowvr/fread.desc.xml</metamoduledescription>
+    <host>localhost</host>
+    <run />
+    <modulelist />
+  </metamodule>
+  <metamodule id="VTK">
+    <metamoduledescription>vtkpara.desc.xml</metamoduledescription>
+    <template id="script">$FLOWVR_PWD/modules/fluid3d1render.tcl</template>
+    <template id="args">1 1</template>
+    <template id="inputs">beginIt in</template>
+    <template id="outputs">endIt scene</template>
+    <host>localhost</host>
+    <run/>
+    <modulelist/>
+  </metamodule>
+</metamodulelist>

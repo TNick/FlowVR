@@ -1,0 +1,4 @@
+SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/metamoduledesc.dtd" "metamoduledesc.dtd"
+SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/metamodulelist.dtd" "metamodulelist.dtd"
+SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/network.dtd" "network.dtd"
+SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/commands.dtd" "commands.dtd"

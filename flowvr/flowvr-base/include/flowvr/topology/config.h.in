@@ -1,0 +1,93 @@
+/* include/topology/config.h.  Generated from config.h.in by configure.  */
+/* 
+ * Copyright © 2009 CNRS, INRIA, Université Bordeaux 1
+ *
+ * This software is a computer program whose purpose is to provide
+ * abstracted information about the hardware topology.
+ *
+ * This software is governed by the CeCILL-B license under French law and
+ * abiding by the rules of distribution of free software.  You can  use,
+ * modify and/ or redistribute the software under the terms of the CeCILL-B
+ * license as circulated by CEA, CNRS and INRIA at the following URL
+ * "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and  rights to copy,
+ * modify and redistribute granted by the license, users are provided only
+ * with a limited warranty  and the software's author,  the holder of the
+ * economic rights,  and the successive licensors  have only  limited
+ * liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated
+ * with loading,  using,  modifying and/or developing or reproducing the
+ * software by the user in light of its specific status of free software,
+ * that may mean  that it is complicated to manipulate,  and  that  also
+ * therefore means  that it is reserved for developers  and  experienced
+ * professionals having in-depth computer knowledge. Users are therefore
+ * encouraged to load and test the software's suitability as regards their
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL-B license and that you accept its terms.
+ */
+
+/* The configuration file */
+
+#ifndef LIBTOPOLOGY_CONFIGURATION_H
+#define LIBTOPOLOGY_CONFIGURATION_H
+
+#define @TOPOLOGY_SYS@_SYS
+
+#define FLOWVR_SCHED_HAVE_GETCPU @SCHED_HAVE_GETCPU@
+#define FLOWVR_HAVE_CPU_NUMBER @SCHED_HAVE_CPUNUMBER@
+
+#define TOPO_HAVE_FFS @TOPOLOGY_HAVE_FFS@
+
+#define TOPO_HAVE_DECL_FFS @TOPOLOGY_HAVE_DECL_FFS@
+
+#define TOPO_HAVE_FFSL @TOPOLOGY_HAVE_FFSL@
+
+#define TOPO_NBMAXCPUS	@TOPOLOGY_NBMAXCPUS@
+
+#define TOPO_CACHE_LEVEL_MAX @TOPOLOGY_CACHE_LEVEL_MAX@
+
+#define TOPO_SIZEOF_UNSIGNED_LONG @TOPOLOGY_SIZEOF_UNSIGNED_LONG@
+#define TOPO_SIZEOF_UNSIGNED_INT @TOPOLOGY_SIZEOF_UNSIGNED_INT@
+
+#define TOPO_BITS_PER_LONG (TOPO_SIZEOF_UNSIGNED_LONG * 8)
+#define TOPO_BITS_PER_INT (TOPO_SIZEOF_UNSIGNED_INT * 8)
+
+// SYSTEM DEPENDENT CHECKS
+#define HAVE_ALLOCA_H @TOPO_HAVE_ALLOCA_H@
+#define HAVE_HOST_INFO @TOPO_HAVE_HOST_INFO@
+#define HAVE_DECL__SC_NPROCESSORS_ONLN @TOPO_HAVE_DECL__SC_NPROCESSORS_ONLN@
+#define HAVE_DECL__SC_NPROC_ONLN @TOPO_HAVE_DECL__SC_NPROC_ONLN@
+#define HAVE_DECL__SC_NPROCESSORS_CONF @TOPO_HAVE_DECL__SC_NPROCESSORS_CONF@
+#define HAVE_DECL__SC_NPROC_CONF @TOPO_HAVE_DECL__SC_NPROC_CONF@
+
+#define HAVE_TOPO_DEFINE_ATFILE_SOURCE @TOPO_DEFINE_ATFILE_SOURCE@ 
+
+#if (TOPO_BITS_PER_LONG != 32) && (TOPO_BITS_PER_LONG != 64)
+#error "unknown size for unsigned long."
+#endif
+
+#if (TOPO_BITS_PER_INT != 16) && (TOPO_BITS_PER_INT != 32) && (TOPO_BITS_PER_INT != 64)
+#error "unknown size for unsigned int."
+#endif
+
+#include <unistd.h>
+
+/* #undef TOPO_HAVE_WINDOWS_H */
+#define topo_pid_t pid_t
+#define topo_thread_t pthread_t
+
+#ifdef TOPO_HAVE_WINDOWS_H
+#  include <windows.h>
+#else /* TOPO_HAVE_WINDOWS_H */
+#  ifdef topo_thread_t
+#    include <pthread.h>
+#  endif /* topo_thread_t */
+#endif /* TOPO_HAVE_WINDOWS_H */
+
+#endif /* LIBTOPOLOGY_CONFIGURATION_H */

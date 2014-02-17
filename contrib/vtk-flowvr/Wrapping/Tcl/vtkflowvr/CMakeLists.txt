@@ -1,0 +1,1 @@
+#INSTALL( DIRECTORY . DESTINATION lib/vtk/vtkflowvr FILES_MATCHING PATTERN "*.tcl" )

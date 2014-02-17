@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE metamoduledesc  SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/metamoduledesc.dtd" >
+
+<metamoduledesc>
+  <metamoduledescription id="vision1">
+    <run id="1CPU" shell="bash">Use and "id" attribute to distinguish between different &lt;run&gt; </run>
+    <run id="2CPU">template A=<template id="A"/> template out=<template id="out"/></run>
+    <run>  Use XML predefined entities: &amp; &quot; &lt; &gt; &apos; or even  &#xA9; </run>
+
+     <modulelist>
+     <script>echo "script <metamoduleid/>: there are  priorities in template and host resolution. For instance template A=<template id="A"/> have a different value for the run command"</script>
+     <script shell="tcsh">echo "script <metamoduleid/>: whitespace (including newlines) are  preserved during parsing"</script>
+     <script shell="bash">echo "script <metamoduleid/>:"; ls -al <metamoduleid/>.desc.xml</script>
+     <script shell="sh">echo "script <metamoduleid/>: the template out=<template id="out"/> affect all metamodules(unless shadowed by an inner definition)"</script>
+     <script>echo "script <metamoduleid/>: here a template=<template id="vision2">DEFAULT VALUE</template>"</script>
+     <script>echo "script <metamoduleid/>: here a host=<host id="vision2">DEFAULT VALUE</host> <host id="vision2">DEFAULT VALUE</host>"</script>
+    </modulelist>
+
+     <modulelist id="1">
+     <script shell="bash">echo "script <metamoduleid/>: Like for &lt;run&gt;   use attributes to distinguish between module lists"</script>
+    </modulelist> 
+ </metamoduledescription>
+
+  <metamoduledescription id="vision2">
+    <run shell="bash">One file can contain several %lt;metamoduledescirptions%gt; but it should be avoided</run>
+     <modulelist>
+     <script shell="bash">echo "nothing"</script>
+    </modulelist>
+ </metamoduledescription>
+
+</metamoduledesc> 

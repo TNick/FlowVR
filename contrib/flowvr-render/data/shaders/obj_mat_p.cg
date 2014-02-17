@@ -1,0 +1,191 @@
+//////////////////////////////////////////////////////////////////////
+// Generic Pixel Shader
+//
+// This shader supports many features
+// controlled by preprocessor flags:
+//
+// TEX0 : color texture
+// COLOR : per-vertex color
+// NORMALMAP : normal-mapping (TEX0 must also be defined)
+// TANGENT : tangent-space lighting
+// SPECULAR : view vector (for specular highlights in pixel shader)
+// SHADOW : number of active shadowmaps
+// REFLECT : reflection on the Z axis with clipping at Z=0
+//
+// To use any of these flags you can define them before including
+// this shader's code, or use the obj_*_p.cg shaders.
+//
+//////////////////////////////////////////////////////////////////////
+
+#ifndef SHADOW
+#define SHADOW 0
+#endif
+
+#ifdef SPECULAR
+#define IF_SPECULAR(a) a
+#else
+#define IF_SPECULAR(a)
+#endif
+
+half3 unit(half3 v) { return normalize(v); }
+// GeForce <= 4 don't support normalize
+fp20 half3 unit(half3 v) { return v; }
+
+
+half4 main(
+
+//
+// Inputs
+//
+
+#ifdef COLOR
+           half4 pcolor       : COLOR0, 
+#endif
+#ifdef TEX0
+           float2 ptex0        : TEXCOORD0,
+#endif
+#ifndef TANGENT
+           half3 pnormal       : TEXCOORD1, 
+#endif
+
+            half3 plight0       : TEXCOORD2
+          , half3 plight1       : TEXCOORD3
+          
+#ifdef SPECULAR
+          , half3 pview         : TEXCOORD4
+#endif
+
+#if SHADOW > 0
+          , float4 pshadow0     : TEXCOORD5
+#endif
+
+#if SHADOW > 1
+          , float4 pshadow1     : TEXCOORD6
+#endif
+
+          , uniform float4 lightColor0 = float4(0.8,0.8,0.8,1)
+          , uniform float4 lightColor1 = float4(0.3,0.3,0.6,1)
+          
+#ifdef TEX0
+	      , uniform sampler2D texcolor
+#endif
+
+#ifdef NORMALMAP
+	      , uniform sampler2D normalmap
+#endif
+
+#if SHADOW > 0
+          , uniform sampler2D shadow[SHADOW]
+#endif
+
+#ifndef COLOR
+
+#ifdef SPECULAR
+          , uniform float4 mat_specular = float4(0.9,0.9,0.9,16.0) // shininess is in w
+#endif
+          , uniform float4 mat_ambient = float4(0.2,0.2,0.2,1.0) // alpha is in w
+          , uniform float3 mat_diffuse = float3(0.6,0.6,0.6)
+#endif
+
+  ) : COLOR
+{
+
+  //
+  // Init vectors and ambient color
+  //
+
+#ifdef NORMALMAP
+  half3 N = unit((tex2D(normalmap, float2(ptex0.x,1-ptex0.y)).xyz)*2-1);
+#else
+#ifdef TANGENT
+  half3 N = half3(0,0,1);
+#else
+  half3 N = unit(pnormal);
+#endif
+#endif
+
+  IF_SPECULAR( half3 V = unit(pview); )
+
+#ifdef COLOR
+#if defined (TEX0)
+  half4 C = pcolor * tex2D(texcolor, float2(ptex0.x,1-ptex0.y));
+#else
+  half4 C = pcolor;
+#endif
+  half3 mdiffuse = C.xyz;
+#ifdef SPECULAR
+  mspecular = C.xyz;
+  half  shininess = 16.0;
+#endif
+  C.xyz *= 0.2;
+#else //COLOR
+  half4 C = mat_ambient;
+  //C.xyz *= 0.5;
+  half3 mdiffuse = mat_diffuse;
+#ifdef SPECULAR
+  half3 mspecular = mat_specular.xyz;
+  half  shininess = mat_specular.w;
+#endif
+#ifdef TEX0
+  half4 pcolor = tex2D(texcolor, float2(ptex0.x,1-ptex0.y));
+  C *= pcolor;
+  mdiffuse *= pcolor.xyz;
+#ifdef SPECULAR
+  mspecular *= pcolor.xyz;
+#endif
+#endif
+#endif //COLOR
+
+  //
+  // Light 0
+  //
+
+  {
+      half3 L = unit(plight0);
+      IF_SPECULAR( half3 H = unit(L+V); )
+      //return half4(L,1);
+      half diffuse = max(dot(N,L),0);
+      //return diffuse*half4(1,1,1,1);
+      IF_SPECULAR( half specular = pow(max(dot(N,H),0),shininess); )
+#if SHADOW > 0
+      if (pshadow0.w > 0) // && diffuse > 0)
+      {
+	  float2 pl = float2(0.5,0.5)-pshadow0.xy/pshadow0.w;
+	  half S = smoothstep(0.25,0.1,dot(pl.xy,pl.xy));
+#ifndef REFLECT
+	  S *= tex2Dproj(shadow[0],pshadow0).x;
+#endif
+	  C.xyz += lightColor0.xyz * (mdiffuse*(diffuse*S) IF_SPECULAR( +mspecular.xyz*(specular*S) ));
+      }
+#else //SHADOW
+      C.xyz += lightColor0.xyz * (mdiffuse*(diffuse) IF_SPECULAR( +mspecular.xyz*(specular) ));
+#endif
+      //return S*half4(1,1,1,1);
+  }
+
+  //
+  // Light 1
+  //
+
+  {
+      half3 L = unit(plight1);
+      IF_SPECULAR( half3 H = unit(L+V); )
+      half diffuse = max(dot(N,L),0);
+      IF_SPECULAR( half specular = pow(max(dot(N,H),0),shininess); )
+#if SHADOW > 1
+      if (pshadow1.w > 0) // && diffuse > 0)
+      {
+	  float2 pl = float2(0.5,0.5)-pshadow1.xy/pshadow1.w;
+	  half S = smoothstep(0.25,0.1,dot(pl.xy,pl.xy));
+#ifndef REFLECT
+	  S *= tex2Dproj(shadow[1],pshadow1).x;
+#endif
+	  C.xyz += lightColor1.xyz * (mdiffuse*(diffuse*S) IF_SPECULAR( +mspecular.xyz*(specular*S) ));
+      }
+#else
+      C.xyz += lightColor1.xyz * (mdiffuse*(diffuse) IF_SPECULAR( +mspecular*(specular) ));
+#endif
+  }
+	     
+  return C;
+}

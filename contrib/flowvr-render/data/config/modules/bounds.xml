@@ -1,0 +1,26 @@
+<config>
+	<ports>
+		<port name="scene" direction="in" stamps="scenestamps"/>
+		<port name="bounds" direction="out"/>
+		<port name="ids" direction="out"/>
+		<port name="center" direction="out"/>
+	</ports>
+	<stamplists>
+		<stamplist name="scenestamps" from="stamptypes.xml"/>
+	</stamplists>
+	<code>
+		<path name="extract" plugin="extractbounds" in="scene"/>
+		<path name="boundsout" plugin="getbounds" out="bounds"/>
+		<path name="sceneids" plugin="extractids" out="ids"/>
+		<path name="centerout" plugin="getcenter" out="center"/>
+	</code>
+	<plugins>
+		<plugin name="extractbounds" so="extractboundsPlug" service="ExtractBounds"/>
+		<plugin name="getbounds" so="getBoundsPlug" service="ExtractBounds"/>
+		<plugin name="extractids" so="getsceneidsPlug" service="ExtractBounds"/>
+		<plugin name="getcenter" so="getbbcenterPlug" service="ExtractBounds"/>
+	</plugins>
+	<services>
+		<service name="ExtractBounds" so="extractboundsservice"/>
+	</services>
+</config>

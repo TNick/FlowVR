@@ -1,0 +1,33 @@
+FlowVR Render
+=============
+
+Overview
+--------
+
+FlowVR Render is an extension to FlowVR for parallel rendering.
+
+Existing parallel or remote  rendering solutions rely on communicating
+pixels, OpenGL  commands, scene-graph changes  or application-specific
+data. FlowVR Render propose an intermediate solution based on a set of
+independent  graphics primitives  where hardware  shaders are  used to
+specify their visual appearance. Compared to an OpenGL based approach,
+it  reduces the  complexity of  the  model by  eliminating most  fixed
+function   parameters,   while   taking   advantage  of   the   latest
+functionalities of graphics cards.
+
+FlowVR  Render is  a  project  of  the  Laboratoire  Informatique  et
+Distribution, Grenoble.
+
+
+Installation
+------------
+
+For basics compilation and installation steps please refer to INSTALL.
+
+
+Documentation
+-------------
+
+FlowVR Render documentation is available online at:
+
+http://flowvr.sourceforge.net/FlowVRDoc.html

@@ -1,0 +1,21 @@
+<config>
+	<ports>
+		<port name="viewport" direction="in" flags="eventsource"/>
+		<port name="devices" direction="in"/>
+		<port name="transform" direction="out"/> 
+	</ports>
+	<stamplists/>
+	<code>
+		<path name="camprops" plugin="setcamparams" out="transform"/>
+		<path name="mousecam" plugin="mousecam" in="viewport, devices" out="transform"/>
+		<path name="keymove" plugin="keydispatch" in="devices" out="transform"/>
+	</code>
+	<plugins>
+		<plugin name="setcamparams" so="setcamerapropsPlug" service="camstate"/>
+		<plugin name="keydispatch" so="keyboardmovePlug" service="camstate"/>
+		<plugin name="mousecam" so="lostInSpaceCamPlug" service="camstate"/>
+	</plugins>
+	<services>
+		<service name="camstate" so="transformstateservice"/>
+	</services>
+</config>

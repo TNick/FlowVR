@@ -1,0 +1,169 @@
+// Volume Pixel Shader
+// BASED ON:
+
+/*
+
+Copyright (c) 2002 Yury Uralsky
+
+This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:
+
+1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+
+2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+
+3. This notice may not be removed or altered from any source distribution.
+
+*/
+
+/*
+
+Comments:
+
+This demo is really a stress test for the NV30. It renders true volumetric
+procedurally animated fire in real time (I hope :)) as originally described
+by Ken Perlin. Thanks to enormous per-fragment horsepower of NV30, fragment
+shader in this demo can evaluate 4D (!) procedural hypertexture by summing 5
+octaves of gradient perlin noise in 4d-space. Essentially, this creates
+animated turbulent 3d-texture, which is used to displace texture coordinates
+used to access fire color texture.
+
+Yury Uralsky (carlos@blaze.ru, yuryu@kaluga.ru, ICQ: 42069218)
+
+*/
+
+uniform sampler3D noisetex; // noise texture
+
+float noise4(float4 vec)
+{
+
+  float n = f1tex3D(noisetex, vec.xyz);
+  return abs(2*n-1);
+}
+
+// turbulence in 4 dimensions - add 5 octaves of gradient noise at different
+// frequencies
+
+float turbulence4(float4 vec)
+{
+  float n;
+
+  // not true 4 dimensionnal noise...
+  vec.z -= vec.w;
+
+  n = noise4(vec) +
+    0.5x * noise4(vec * 2.0h)
+    + 0.25x * noise4(vec * 4.0h)
+    + 0.125x * noise4(vec * 8.0h);
+//    + 0.0625x * noise4(vec * 16.0h);
+  
+  return n;
+}
+
+uniform sampler2D firetex;	// color texture
+uniform float turb_scale=0.5;	// turbulence scale
+uniform float zscale=0.8;
+uniform float time;
+
+// change this function to something better...
+float3 volume(float3 p)
+{
+  float t = turbulence4(float4(p,time))*turb_scale;
+  //return float3(t,t,t);
+  float2 uv;
+  uv.x = length(p.xy-0.5);
+  uv.y = zscale*p.z + t*turb_scale;
+  uv.y = 1-uv.y;
+  return x3tex2D(firetex, uv);
+}
+
+//////////////////////////////////////////////////////////////////////
+
+float4 volstep(float4 c, float3 p, float oscale)
+{
+  float3 s = volume(p);
+  c.xyz += s.xyz*oscale;
+  return c;
+}
+
+//////////////////////////////////////////////////////////////////////
+
+uniform int steps = 32;
+
+uniform float opacity = 4;
+
+fp40 float4 raycast(float4 c, float3 p, float3 p2, float l)
+{
+  float3 step = (p2-p)/(steps-1);
+  float oscale = opacity*l/(steps-1);
+  for (int i=0;i<steps;i++)
+  {
+    c = volstep(c,p,oscale);
+    p += step;
+  }
+  return c;
+}
+
+float4 raycast(float4 c, float3 p, float3 p2, float l)
+{
+  float3 step = (p2-p)/(8-1);
+  float oscale = opacity*l/(8-1);
+
+/*
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+*/
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale);
+  return c;
+}
+
+float4 main(
+  float4 ray_o   : TEXCOORD0,
+  float3 ray_d   : TEXCOORD1) : COLOR
+{
+  ray_d = normalize(ray_d);
+  //ray_o.xyz /= ray_o.w;
+  //return float4(ray_d,1);
+
+  // Intersect Box
+  float3 invR = 1/ray_d;
+  float3 tbot = invR*(1-ray_o.xyz);
+  float3 ttop = invR*(-ray_o.xyz);
+  // reorder intersections to find smallest and largest on each axis
+  float3 tmin = min(ttop, tbot);
+  float3 tmax = max(ttop, tbot);
+  // find the largest tmin and the smallest tmax
+  float2 t0 = max (tmin.xx, tmin.yz);
+  float tnear = max (t0.x, t0.y);
+  float2 t1 = min (tmax.xx, tmax.yz);
+  float tfar = min (t1.x, t1.y);
+
+  if (tnear>tfar) discard;
+
+  //return (tfar-tnear).xxxx;
+
+  float3 pnear = ray_o.xyz + tnear * ray_d;
+  float3 pfar = ray_o.xyz + tfar * ray_d;
+
+  float4 c = float4(0,0,0,1);
+
+  c = raycast(c,pnear,pfar,tfar-tnear);
+
+  c.w = 1-c.w;
+
+  return c;
+}

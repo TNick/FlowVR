@@ -1,0 +1,17 @@
+<config>
+	<ports>		
+		<port name="ids" direction="in"    stamps="scenestamps"/>
+		<port name="scene" direction="out" stamps="scenestamps"/>
+	</ports>
+	<stamplists>
+		<stamplist name="scenestamps" from="stamptypes.xml"/>
+	</stamplists>
+	<code>
+		<path name="mirror" plugin="sceneout" in="ids" out="scene"/>
+	</code>
+	<plugins>
+		<plugin name="sceneout" so="mirrorPlug"/>
+	</plugins>
+	<services>
+	</services>
+</config>

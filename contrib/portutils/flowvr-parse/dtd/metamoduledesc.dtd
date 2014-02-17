@@ -1,0 +1,80 @@
+<!ELEMENT metamoduledesc (metamoduledescription*)>
+<!ELEMENT metamoduledescription (run+,modulelist*)>
+<!ATTLIST metamoduledescription
+          id CDATA #IMPLIED
+>
+<!ELEMENT run (#PCDATA|nb|host|hostlist|machinefile|template|metamoduleid)*>
+<!ATTLIST run
+          id CDATA #IMPLIED
+          shell CDATA #IMPLIED
+>
+<!ELEMENT modulelist (script|module)*>
+<!ATTLIST modulelist
+          id CDATA #IMPLIED
+>
+<!ELEMENT script (#PCDATA|nb|host|hostlist|machinefile|template|metamoduleid)*>
+<!ATTLIST script
+          id CDATA #IMPLIED
+          shell CDATA #IMPLIED
+>
+
+<!ELEMENT hostlist EMPTY>
+
+<!ELEMENT nb EMPTY>
+<!ELEMENT host      (#PCDATA)>
+<!ATTLIST host
+          id  CDATA #IMPLIED
+>
+
+<!ELEMENT machinefile EMPTY>
+<!ELEMENT template (#PCDATA)>
+<!ATTLIST template
+          id CDATA #IMPLIED
+>
+
+<!ELEMENT metamoduleid EMPTY>
+
+
+<!ELEMENT module (modulename,hostname,input?,output?,tracelist*)>
+
+<!ELEMENT hostname (#PCDATA|host|template)*>
+<!ELEMENT modulename (#PCDATA|host|template|metamoduleid|nb)*>
+
+
+<!ELEMENT input (port*)>
+<!ELEMENT output (port*)>
+<!ELEMENT port (datatype?,stamplist?)>
+<!ATTLIST port
+          id CDATA #REQUIRED
+>
+
+<!ELEMENT datatype (#PCDATA)>
+
+<!ELEMENT stamplist (stamp*)>
+<!ELEMENT stamp (int|float|string|array|binary)>
+<!ATTLIST stamp
+          name CDATA #REQUIRED
+	  size CDATA #REQUIRED
+>
+<!ELEMENT int EMPTY>
+<!ELEMENT float EMPTY>
+<!ELEMENT string EMPTY>
+<!ELEMENT binary EMPTY>
+<!ATTLIST binary
+          size CDATA #REQUIRED
+>
+<!ELEMENT array (int|float|string|array|binary)>
+<!ATTLIST array
+          size CDATA #REQUIRED
+>
+
+<!ELEMENT tracelist (trace+)>
+
+<!ELEMENT trace  (data)>
+<!ATTLIST trace
+          id CDATA #REQUIRED
+>
+
+
+<!ELEMENT data (int|float|string|array|binary)+>
+

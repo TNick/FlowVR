@@ -1,0 +1,19 @@
+#GLOBAL PARAMETER
+viewer:nbViewer=1
+viewer:viewersFrequency=30
+viewer:DEBUG=true
+#VIEWERS PARAMETER
+viewer/viewer0:ViewerExecName=text1
+#viewer/viewer0:ViewerExecName=text2
+#viewer/viewer0:ViewerExecName=sphere1
+#viewer/viewer0:ViewerExecName=sphere2 images/sphere2c.png
+#viewer/viewer0:ViewerExecName=volume1
+#viewer/viewer0:ViewerExecName=fire
+#viewer/viewer0:ViewerExecName=spheres
+#MULTI-VIEWER
+#viewer:nbViewer=3
+#viewer/viewer0:ViewerExecName=flowvr-viewer-grid
+#viewer/viewer1:ViewerExecName=flowvr-viewer-mesh models/shuttle.obj -s 10
+#viewer/viewer2:ViewerExecName=flowvr-viewer-skybox images/cube0001.jpg
+#RENDERER PARAMETER
+#viewer/Renderer:FLOWVR_RENDERER_CMDLINE=--blue

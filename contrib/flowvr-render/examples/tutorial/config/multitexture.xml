@@ -1,0 +1,15 @@
+<config>
+	<ports>		
+		<port name="scene" direction="out" stamps="scenestamps"/>
+	</ports>
+	<stamplists>
+		<stamplist name="scenestamps" from="stamptypes.xml"/>
+	</stamplists>
+	<code>
+		<path name="multitextureOut" plugin="multitextureViewer" out="scene"/>
+	</code>
+	<plugins>
+		<plugin name="multitextureViewer" so="multitextureViewerPlug"/>
+	</plugins>
+	<services/>
+</config>

@@ -1,0 +1,3 @@
+INCLUDE(UseLATEX.cmake)
+
+ADD_LATEX_DOCUMENT(tutorial.tex IMAGE_DIRS figures DEFAULT_PDF)

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE metamoduledesc  SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/metamoduledesc.dtd" >
+<metamoduledesc>
+ <metamoduledescription>
+  <run>flowvr-run-ssh -e DISPLAY <template id="display">${DISPLAY:-:0}</template> <host>localhost</host> vtk <template id="script">../Examples/Tcl/warpComb.tcl</template></run>
+  <modulelist>
+   <module>
+    <modulename><metamoduleid/></modulename>
+    <hostname><host>localhost</host></hostname>
+    <input>
+      <port id="beginIt"><datatype/></port>
+    </input>
+    <output>
+      <port id="scene"><datatype/></port>
+      <port id="endIt"><datatype/></port>
+    </output>
+   </module>
+  </modulelist>
+ </metamoduledescription>
+</metamoduledesc>

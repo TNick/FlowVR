@@ -1,0 +1,45 @@
+FlowVR-render examples for basic viewers.
+
+Compilation
+
+ ./make-app.sh
+ 
+
+Source environment variable:
+
+ . ./bin/BasicViewersExample-config.sh
+ 
+to source the environment variables needed.
+
+
+To launch the default example:
+
+flowvr-render-demo-viewer.sh
+
+
+To launch a different viewer:
+ 
+ flowvr-render-demo-viewer.sh volume1
+
+
+and you can change  volume 1 for one of the following veiwers:
+
+- text1
+- text2
+- spheres
+- sphere1
+- sphere2
+- volume1
+- fire
+
+You can also directly :
+
+1) start a daemon in a separate terminal:
+
+flowvrd -t
+
+
+2) start one of the examples (in this case fire): 
+
+flowvr -L -x -Q config/genericviewer-fire.prm  -Pgenericviewer-fire:services-Balzac-displayfile=/Users/raffin/FLOWVR/flowvr-suite-dev/install-suite/share/flowvr-render/examples/viewers/config/balzac-config.xml  genericviewer
+

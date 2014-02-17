@@ -1,0 +1,22 @@
+#!/bin/bash
+
+export SCRIPT=${1:-@VTKFlowVR_SOURCE_DIR@/Examples/Tcl/quadric/modules/quadric.tcl}
+shift
+
+echo Launching deamon
+flowvr-term -T flowvrd -H flowvrd &
+
+sleep 1
+
+echo Launching Render
+FLOWVR_MODNAME=Render flowvr-term -T Render -H '@FLOWVRRENDER_PREFIX@/bin/flowvr-renderer --noin --white --print | tee log-Render' &
+
+sleep 1
+
+echo Launching Visu
+FLOWVR_MODNAME=Visu flowvr-term -H -T Visu '. @CMAKE_BINARY_DIR@/bin/vtk-flowvr-config.sh ; vtk $SCRIPT $@ 2>&1 | tee log-Visu'
+
+killall flowvr-renderer
+killall vtk
+killall flowvrd
+

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+NX=${1:-256}
+NY=${2:-256}
+
+FLUID_PROGRAM=@FLUID_MODULE@
+
+echo Launching deamon
+flowvr-term -H -T flowvrd flowvrd &
+
+sleep 1
+
+echo Launching Visu
+FLOWVR_MODNAME=Visu flowvr-term -H -T Visu '. @CMAKE_BINARY_DIR@/bin/vtk-flowvr-config.sh ; vtk @VTKFlowVR_SOURCE_DIR@/Examples/Tcl/fluid2d/modules/fluid2d.tcl' &
+
+sleep 1
+
+echo Launching Simu
+FLOWVR_MODNAME=Simu flowvr-term -H -T Simu ${FLUID_PROGRAM} --nopos $NX $NY
+
+killall fluid
+killall vtk
+killall flowvrd$SUFFIX
+

@@ -1,0 +1,45 @@
+
+What is this?
+=============
+
+This is a replacement for the C++ flowvr::app framework used to
+describe the flowvr graph. In contrast with flowvr::app, it has no
+fancy automatic building of the graph: all primitives (filters,
+synchronizers, modules) must be defined individually and placed
+explicitly.
+
+The rationale for this is that the complexity and verbosity of the
+graph description via flowvr::app outweights the advantages of
+automatic placement.
+
+The graph is built sequentially, inconsitencies are reported as
+early and clearly as possible.
+
+How does it work?
+=================
+
+A Python script generates the .cmd.xml and .run.xml files. It does not
+need to be compiled or installed. There is no infrastructure in place
+to handle parameters (.prm) or placement (.csv). Since the definition
+is not compiled, this information can be conveniently put in the code,
+or passed as command line parameters.
+
+Files
+=====
+
+- flowvrapp.py contains classes for the basic objects of flowvr app
+(Primitve, Module, Filter, Port) and generation code for the .run.xml
+and .cmd.xml files
+
+- filters.py contains classes for standard flowvr filters
+
+- portutils.py is a limited implementation of the Portutils's
+flowvrapp side. It contains the PortModule Primitive.
+
+- balzac.py contains the BalzacLostInSpaceViewer and an implementation
+of the Balzac tutorial.
+
+Example
+=======
+
+See the tutorial in the doc/ subdirectory

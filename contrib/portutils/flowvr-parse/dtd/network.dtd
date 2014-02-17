@@ -1,0 +1,135 @@
+<!ELEMENT network (module|synchronizer|filter|routingnode|routingnodestamps|connection|connectionstamps)*>
+
+<!ELEMENT module (input?,output?,tracelist*)>
+<!ATTLIST module
+          id       CDATA #REQUIRED
+	  host     CDATA #REQUIRED
+	  style CDATA #IMPLIED
+>
+
+<!ELEMENT input (port*)>
+<!ELEMENT output (port*)>
+<!ELEMENT port (datatype?,stamplist?)>
+<!ATTLIST port
+          id CDATA #REQUIRED
+>
+
+<!ELEMENT datatype (#PCDATA)>
+
+<!ELEMENT stamplist (stamp*)>
+<!ELEMENT stamp (int|float|string|array|binary)>
+<!ATTLIST stamp
+          name CDATA #REQUIRED
+	  size CDATA #REQUIRED
+>
+<!ELEMENT int EMPTY>
+<!ELEMENT float EMPTY>
+<!ELEMENT string EMPTY>
+<!ELEMENT binary EMPTY>
+<!ATTLIST binary
+          size CDATA #REQUIRED
+>
+<!ELEMENT array (int|float|string|array|binary)>
+<!ATTLIST array
+          size CDATA #REQUIRED
+>
+
+
+<!ELEMENT tracelist (trace+)>
+
+<!ELEMENT trace  (data)>
+<!ATTLIST trace
+          id CDATA #REQUIRED
+>
+
+
+
+<!ELEMENT data (int|float|string|array|binary)+>
+
+
+<!ELEMENT routingnode EMPTY>
+<!ATTLIST routingnode
+          id CDATA #REQUIRED
+	  host CDATA #REQUIRED
+	  style CDATA #IMPLIED
+>
+
+<!ELEMENT routingnodestamps EMPTY>
+<!ATTLIST routingnodestamps
+          id CDATA #REQUIRED
+	  host CDATA #REQUIRED
+	  style CDATA #IMPLIED
+>
+
+
+<!ELEMENT connectionstamps (sourcestamps,destinationstamps)>
+<!ATTLIST connectionstamps
+          id CDATA #REQUIRED
+	  style CDATA #IMPLIED
+>
+
+<!ELEMENT sourcestamps (moduleid|filterid|synchronizerid|routingnodeid|routingnodestampsid)>
+<!ELEMENT destinationstamps (filterid|synchronizerid|routingnodestampsid)>
+
+
+<!ELEMENT connection (source,destination)>
+<!ATTLIST connection
+          id CDATA #REQUIRED
+	  style CDATA #IMPLIED
+>
+
+<!ELEMENT source (moduleid|filterid|routingnodeid)>
+<!ELEMENT destination (moduleid|filterid|routingnodeid)>
+
+<!ELEMENT moduleid EMPTY>
+<!ATTLIST moduleid
+          id CDATA #REQUIRED
+          port CDATA #REQUIRED
+	  host CDATA #IMPLIED
+>
+
+<!ELEMENT filterid EMPTY>
+<!ATTLIST filterid
+          id CDATA #REQUIRED
+          port CDATA #REQUIRED
+	  host CDATA #IMPLIED
+>
+
+<!ELEMENT synchronizerid EMPTY>
+<!ATTLIST synchronizerid
+          id CDATA #REQUIRED
+          port CDATA #REQUIRED
+	  host CDATA #IMPLIED
+>
+
+<!ELEMENT routingnodeid (moduleid|filterid)?>
+<!ATTLIST routingnodeid
+          id CDATA #REQUIRED
+	  host CDATA #IMPLIED
+>
+
+<!ELEMENT routingnodestampsid (moduleid|filterid|synchronizerid)?>
+<!ATTLIST routingnodestampsid
+          id CDATA #REQUIRED
+	  host CDATA #IMPLIED
+>
+
+<!ELEMENT synchronizer (synchronizerclass,input?,output?,tracelist*,parameters?)>
+<!ATTLIST synchronizer
+          id CDATA #REQUIRED
+	  host CDATA #REQUIRED
+	  style CDATA #IMPLIED
+>
+
+<!ELEMENT synchronizerclass (#PCDATA)>
+
+<!ELEMENT filter (filterclass,input?,output?,tracelist*,parameters?)>
+<!ATTLIST filter
+          id CDATA #REQUIRED
+	  host CDATA #REQUIRED
+	  style CDATA #IMPLIED
+>
+
+<!ELEMENT filterclass (#PCDATA)>
+
+<!ELEMENT parameters ANY>

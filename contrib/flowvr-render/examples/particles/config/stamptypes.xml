@@ -1,0 +1,7 @@
+<config>
+	<stamplists>
+		<stamplist name="scenestamps">
+			<stamp name="scratch" type="int"/>
+		</stamplist>
+	</stamplists>
+</config>

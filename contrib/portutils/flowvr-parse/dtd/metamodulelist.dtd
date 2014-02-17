@@ -1,0 +1,28 @@
+
+<!ELEMENT metamodulelist ((template|host)*,metamodule+)>
+
+<!ELEMENT metamodule (metamoduledescription,(template|host)*,run,modulelist)>
+<!ATTLIST metamodule
+          id CDATA #REQUIRED>
+
+<!ELEMENT metamoduledescription (#PCDATA)>
+<!ATTLIST metamoduledescription
+          id CDATA #IMPLIED>
+
+<!ELEMENT run (host|template)*>
+<!ATTLIST run
+          id CDATA #IMPLIED
+          shell CDATA #IMPLIED>
+
+<!ELEMENT modulelist (host|template)*>
+<!ATTLIST modulelist
+          id CDATA #IMPLIED>
+
+<!ELEMENT host (#PCDATA)>
+<!ATTLIST host 
+          id CDATA #IMPLIED>
+
+<!ELEMENT template (#PCDATA)>
+<!ATTLIST template 
+          id CDATA #IMPLIED>
+

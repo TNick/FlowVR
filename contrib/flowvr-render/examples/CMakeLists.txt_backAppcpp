@@ -1,0 +1,83 @@
+# EXAMPLES
+# Copy all  examples (no compilation) in /share directory
+
+#installation of the examples 
+	FOREACH(target tutorial viewers particles targetgroups  ) 
+	  INSTALL(DIRECTORY  ${target}
+	    DESTINATION  share/flowvr-render/examples/ PATTERN ".svn" EXCLUDE)
+	  INSTALL(PROGRAMS ${target}/make-app.sh 
+	    DESTINATION share/flowvr-render/examples/${target}/
+	    PERMISSIONS OWNER_EXECUTE OWNER_READ OWNER_WRITE
+	    GROUP_READ WORLD_READ ) # to make sure it has the correct execution rights
+	ENDFOREACH(target)
+
+# Install the flowvr-render-demo-fire  application
+
+# Make sure we load FlowVRConfig.cmake to be able to use all variables it set up. 
+# Make sure we load FlowVRRenderConfig.cmake to be able to use all variables it set up. 
+	FIND_PACKAGE(FlowVR REQUIRED)
+	FIND_PACKAGE(FlowVRRender REQUIRED)
+#OpenGL and GLUT are needed too
+	FIND_PACKAGE(OpenGL REQUIRED)
+	FIND_PACKAGE(GLUT REQUIRED)
+
+# Demo Modules binary directory
+        SET(MODULE_BIN_DIR share/flowvr-render/modules/bin) # module install dir
+        SET(DATA_DIR share/flowvr-render/data)
+
+        # compilation de particles
+	SET(DEMO_COMP_CLASS Particles)
+	STRING(TOLOWER ${DEMO_COMP_CLASS} DEMO_COMP_LOWER)
+	INCLUDE_DIRECTORIES(${FLOWVR_base_INCLUDE_DIR} ${FLOWVR_mod_INCLUDE_DIR} ${FLOWVR_ftl_INCLUDE_DIR} ${FLOWVRRENDER_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR} particles/include)
+        FOREACH(target creatorparticles viewerparticles1 viewerparticles2)
+            ADD_EXECUTABLE(${target} particles/src/${target}.cpp)
+	    TARGET_LINK_LIBRARIES(${target} ${FLOWVR_base_LIBRARY} ${FLOWVR_mod_LIBRARY} ${FLOWVR_ftl_LIBRARY} ${FLOWVRRENDER_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} )
+            INSTALL(TARGETS ${target}  DESTINATION ${MODULE_BIN_DIR})
+        ENDFOREACH(target)
+
+# Launching Script For Particles
+	CONFIGURE_FILE(particles/flowvr-demo-particles.sh.in ${CMAKE_CURRENT_BINARY_DIR}/flowvr-render-demo-${DEMO_COMP_LOWER}.sh  @ONLY)
+	INSTALL(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/flowvr-render-demo-${DEMO_COMP_LOWER}.sh  DESTINATION bin)
+
+    ###########################################################
+    ## PARTICLECOMPONENT
+    ###########################################################
+	SET(components-SRC particles/src/particles.comp.cpp particles/src/particlesource.comp.cpp)
+	ADD_LIBRARY(${DEMO_COMP_LOWER}.comp SHARED  ${components-SRC})
+	TARGET_LINK_LIBRARIES(${DEMO_COMP_LOWER}.comp ${FLOWVR_app_comp_LIBRARY} ${FLOWVR_render_comp_LIBRARY} )
+	#SET_TARGET_PROPERTIES(${DEMO_COMP_LOWER}.comp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+	INSTALL(TARGETS ${DEMO_COMP_LOWER}.comp LIBRARY DESTINATION lib/flowvr/components)
+
+####################################################################
+## GENERICVIEWERS
+####################################################################
+
+	SET(VIEWER_COMP_CLASS genericviewer)
+        STRING(TOLOWER ${VIEWER_COMP_CLASS} VIEWER_COMP_LOWER)
+
+    	SET(components-SRC viewers/src/genericviewer.comp.cpp)
+    	ADD_LIBRARY(${VIEWER_COMP_LOWER}.comp SHARED  ${components-SRC})
+    	TARGET_LINK_LIBRARIES(${VIEWER_COMP_LOWER}.comp ${FLOWVR_app_comp_LIBRARY} ${FLOWVR_render_comp_LIBRARY} )
+    	#SET_TARGET_PROPERTIES(${DEMO_COMP_LOWER}.comp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+    	INSTALL(TARGETS ${VIEWER_COMP_LOWER}.comp LIBRARY DESTINATION lib/flowvr/components)
+
+        INCLUDE_DIRECTORIES(${FLOWVR_base_INCLUDE_DIR}
+                    ${FLOWVR_mod_INCLUDE_DIR}
+                    ${FLOWVR_ftl_INCLUDE_DIR}
+                    ${FLOWVRRENDER_INCLUDE_DIR})
+
+        LINK_LIBRARIES(${FLOWVR_base_LIBRARY} ${FLOWVR_mod_LIBRARY} ${FLOWVR_ftl_LIBRARY} ${FLOWVRRENDER_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
+
+
+
+        FOREACH(target text1 text2 spheres sphere1 sphere2 volume1 fire)
+            ADD_EXECUTABLE(${target} viewers/src/${target}.cpp)
+            INSTALL(TARGETS ${target}  DESTINATION ${MODULE_BIN_DIR})
+        ENDFOREACH(target)
+        
+        # INSTALL IMAGES FILES
+        FILE(GLOB images-files viewers/data/images/*.png)
+        INSTALL(FILES ${images-files} DESTINATION ${DATA_DIR}/images)
+# Launching Script For Viewers
+        CONFIGURE_FILE(viewers/flowvr-demo-viewers.sh.in ${CMAKE_CURRENT_BINARY_DIR}/flowvr-render-demo-viewer.sh  @ONLY)
+        INSTALL(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/flowvr-render-demo-viewer.sh  DESTINATION bin)

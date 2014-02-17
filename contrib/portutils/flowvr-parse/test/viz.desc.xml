@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE metamoduledesc  SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/metamoduledesc.dtd" >
+
+<metamoduledesc>
+  <metamoduledescription>
+    <run shell="bash">run  <metamoduleid/>: Launching script for <metamoduleid/>. Can use templates :  hostname=<host id="projct1"/>  Projector type=<template id="projcttype"/> metamodule id=<metamoduleid/>   hostlist=<hostlist/>  machinefile=<machinefile/> nb=<nb/></run>
+
+   <modulelist>
+     <module>
+     <modulename><metamoduleid/></modulename>
+     <hostname><host id="projct1"/></hostname>
+     <output>
+      <port id="pos">
+        <datatype>data</datatype>
+	<stamplist>
+          <stamp name="source" size="8">
+	      <string/>
+	  </stamp>
+          <stamp name="it" size="4">
+	      <int/>
+	  </stamp>
+	</stamplist>
+      </port>
+    </output>
+    </module>
+
+     <script shell="bash">echo "script<metamoduleid/>: Do nothing, just show that templates are resolved: hostname=<host id="projct1"/>  Projector type=<template id="projcttype"/> metamodule id=<metamoduleid/>  template out=<template id="out"/>"</script>
+
+  </modulelist>
+ </metamoduledescription>
+</metamoduledesc> 

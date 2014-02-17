@@ -1,0 +1,11 @@
+SET( gentexfont-DEPS ${X11_LIBRARIES} )
+SET( showtxf-DEPS ${GLUT_LIBRARY} )
+SET( simpletxf-DEPS ${GLUT_LIBRARY} )
+SET( genftfont-DEPS ${FREETYPE_LIBRARIES} ${GLUT_LIBRARY} )
+
+SET(utils dilate distmap gendispconfig meshconv tesselate gentexfont showtxf simpletxf genftfont)
+ FOREACH(util ${utils})
+   ADD_EXECUTABLE(flowvr-${util} ${util}.cpp)
+   TARGET_LINK_LIBRARIES(flowvr-${util} flowvr-render ${FLOWVR_ftl_LIBRARY} ${${util}-DEPS} ) 
+   INSTALL(TARGETS flowvr-${util} DESTINATION bin)
+ENDFOREACH(util)

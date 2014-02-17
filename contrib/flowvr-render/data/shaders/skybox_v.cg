@@ -1,0 +1,17 @@
+// SkyBox Vertex Shader
+// position: relative to camera space
+// out tex0: direction in scene space
+
+void main(
+  float4 position : POSITION,
+  uniform float4x4 ModelViewI,
+  uniform float4x4 Proj,
+
+  out float4 ppos : POSITION,
+  out float3 ptex0 : TEXCOORD0
+)
+{
+  ppos = mul(Proj, position);
+  ptex0 = mul((float3x3)ModelViewI, position.xyz)*float3(-1,1,1);
+}
+

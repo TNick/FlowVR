@@ -1,0 +1,17 @@
+<config>
+	<display>
+		<window>
+			<width>1024</width>
+			<height>768</height>
+			<left>10</left>
+			<top>10</top>
+			<fullscreen>false</fullscreen>
+			<title>balzac -- FlowVR Render</title>
+			<cursor>0</cursor>		
+		</window>
+		<projection>
+		</projection>
+		<user>
+		</user>
+	</display>
+</config>

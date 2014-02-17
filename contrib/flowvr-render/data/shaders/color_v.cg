@@ -1,0 +1,12 @@
+// Line Vertex Shader
+// Color
+
+void main(float4 position     : POSITION,
+          half4 color         : COLOR0,
+  uniform float4x4 ModelViewProj,
+      out float4 ppos         : POSITION,
+      out half4 pcolor       : COLOR0)
+{
+  ppos = mul(ModelViewProj, position);
+  pcolor = color;
+}

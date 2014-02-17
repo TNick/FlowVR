@@ -1,0 +1,3 @@
+#define COLOR 1
+#define TEX0 1
+#include "obj_v.cg"

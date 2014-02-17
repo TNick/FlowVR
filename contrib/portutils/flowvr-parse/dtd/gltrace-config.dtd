@@ -1,0 +1,174 @@
+<!ELEMENT trace (filelist,hostlist,objectlist,tracelist,eventlist,linklist)>
+
+
+
+<!-- FILELIST //-->
+<!ELEMENT filelist (pingresults,tracefile+)>
+
+<!ELEMENT pingresults EMPTY>
+<!ATTLIST pingresults
+          file CDATA #REQUIRED>
+
+<!ELEMENT tracefile EMPTY>
+<!ATTLIST tracefile
+          file CDATA #REQUIRED>
+<!--  //-->
+
+
+
+<!-- HOSTLIST //-->
+<!ELEMENT hostlist (host+)>
+
+<!ELEMENT host (logger+)>
+<!ATTLIST host
+          id CDATA #REQUIRED
+          method (FASTEST|AVERAGE) #REQUIRED>
+
+<!ELEMENT logger EMPTY>
+<!ATTLIST logger
+          id CDATA #REQUIRED>
+<!--  //-->
+
+
+
+<!-- OBJECTLIST //-->
+<!ELEMENT objectlist (module|filter|synchronizer|object)+>
+
+<!ELEMENT module (objdisplay)>
+<!ATTLIST module
+          id CDATA #REQUIRED
+          host CDATA #REQUIRED>
+
+<!ELEMENT filter (objdisplay)>
+<!ATTLIST filter
+          id CDATA #REQUIRED
+          host CDATA #REQUIRED>
+
+<!ELEMENT synchronizer (objdisplay)>
+<!ATTLIST synchronizer
+          id CDATA #REQUIRED
+          host CDATA #REQUIRED>
+
+<!ELEMENT object (objdisplay)>
+<!ATTLIST object
+          id CDATA #REQUIRED
+          host CDATA #REQUIRED>
+
+<!-- objdisplay definition at end of file //-->
+
+<!--  //-->
+
+
+
+
+<!-- TRACELIST //-->
+<!ELEMENT tracelist (trace)+>
+
+<!ELEMENT trace (shot)*>
+<!ATTLIST trace
+          object CDATA #REQUIRED
+          name CDATA #REQUIRED>
+
+<!ELEMENT shot EMPTY>
+<!ATTLIST shot
+          id CDATA #REQUIRED>
+<!--  end TRACELIST//-->
+
+
+
+
+<!-- EVENTLIST //-->
+<!ELEMENT eventlist (event)*>
+
+<!ELEMENT event (trace,evtdisplay)>
+<!ATTLIST event
+          name CDATA #REQUIRED>
+
+<!--  trace already define in tracelist //-->
+
+<!-- evtdisplay definition at end of file //-->
+
+<!--  //-->
+
+
+
+<!-- LINKLIST //-->
+<!ELEMENT linklist (link)*>
+
+<!ELEMENT link (source,destination,match,lnkdisplay)>
+<!ATTLIST link
+          name CDATA #REQUIRED>
+
+<!ELEMENT source EMPTY>
+<!ATTLIST source
+          name CDATA #REQUIRED>
+
+<!ELEMENT destination EMPTY>
+<!ATTLIST destination
+          name CDATA #REQUIRED>
+
+<!ELEMENT match (DestFromSrc|SrcFromDest|MultipleDest|MutlipleSrc)>
+<!ELEMENT DestFromSrc EMPTY>
+<!ELEMENT SrcFromDest EMPTY>
+<!ELEMENT MultipleDest EMPTY>
+<!ELEMENT MutlipleSrc EMPTY>
+
+<!-- display definition at end of file //-->
+
+<!--  //-->
+
+
+
+<!-- DISPLAY //-->
+<!ELEMENT objdisplay (objline|objtext|null)*>
+<!ATTLIST objdisplay
+          active (YES|NO) #REQUIRED
+          pos CDATA #IMPLIED>
+
+<!ELEMENT evtdisplay (evtline|null)*>
+<!ATTLIST etvdisplay
+          active (YES|NO) #REQUIRED>
+
+<!ELEMENT lnkdisplay (lnkline|objline|null)*>
+<!ATTLIST lnkdisplay
+          active (YES|NO) #REQUIRED>
+
+
+
+<!ELEMENT objline EMPTY>
+<!ATTLIST objline
+          color CDATA #IMPLIED
+          width CDATA #IMPLIED
+          depth CDATA #IMPLIED>
+
+<!ELEMENT objtext EMPTY>
+<!ATTLIST objtext
+          color CDATA #IMPLIED
+          text CDATA #IMPLIED
+          pos CDATA #IMPLIED>
+
+<!ELEMENT evtline EMPTY>
+<!ATTLIST evtline
+          color CDATA #IMPLIED
+          width CDATA #IMPLIED>
+
+<!ELEMENT objtext EMPTY>
+<!ATTLIST objtext
+          color CDATA #IMPLIED
+          text CDATA #IMPLIED
+          pos CDATA #IMPLIED>
+
+
+<!ELEMENT evtline EMPTY>
+<!ATTLIST evtline
+          color CDATA #IMPLIED
+          width CDATA #IMPLIED>
+
+
+<!ELEMENT lnkline EMPTY>
+<!ATTLIST lnkline
+          srccolor CDATA #IMPLIED
+          destcolor CDATA #IMPLIED>
+
+<!ELEMENT null EMPTY>
+<!--  //-->

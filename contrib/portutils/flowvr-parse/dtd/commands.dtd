@@ -1,0 +1,66 @@
+<!ELEMENT commands (addobject*,removeobject*,addroute*,removeroute*,pause*,start*,ping*,result*,news*)>
+
+<!-- class = C++ class name ex.: regulator/filter/synchronizer-->
+<!ELEMENT addobject ANY>
+<!ATTLIST addobject
+          id  CDATA #REQUIRED
+          class CDATA #REQUIRED
+>
+
+<!ELEMENT removeobject EMPTY>
+<!ATTLIST removeobject
+          id CDATA #REQUIRED
+>
+
+<!ELEMENT addroute (source,action)>
+<!ATTLIST addroute
+          id  CDATA #REQUIRED
+>
+<!ELEMENT source EMPTY>
+<!ATTLIST source
+          id CDATA #REQUIRED
+          port CDATA #REQUIRED
+          messagetype ("full","stamps") #IMPLIED
+>
+<!ELEMENT action ANY>
+<!ATTLIST action
+          id CDATA #REQUIRED
+          messagetype ("full","stamps") CDATA #IMPLIED
+>
+
+<!ELEMENT start EMPTY>
+<!ATTLIST start
+          id CDATA #REQUIRED
+>
+
+<!ELEMENT removeroute EMPTY>
+<!ATTLIST removeroute
+          id CDATA #REQUIRED
+>
+
+<!ELEMENT result ANY>
+<!ATTLIST result
+          id CDATA #REQUIRED
+	  status CDATA #REQUIRED
+>
+
+<!ELEMENT news ANY>
+<!ATTLIST news
+          id CDATA #REQUIRED
+          status CDATA #REQUIRED
+>
+
+<!ELEMENT ping EMPTY>
+<!ATTLIST ping
+          id CDATA #REQUIRED
+          logger CDATA #REQUIRED
+>
+
+<!ELEMENT pause EMPTY>
+<!ATTLIST pause
+>
+
+<!ELEMENT time EMPTY>
+<!ATTLIST time
+          logger CDATA #REQUIRED
+>

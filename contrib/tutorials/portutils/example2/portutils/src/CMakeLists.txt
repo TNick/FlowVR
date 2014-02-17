@@ -1,0 +1,2 @@
+ADD_SUBDIRECTORY(components)
+ADD_SUBDIRECTORY(plugs)

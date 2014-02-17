@@ -1,0 +1,3 @@
+#define TEX0 1
+#define NORMALMAP 1
+#include "obj_mat_p.cg"

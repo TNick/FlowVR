@@ -1,0 +1,18 @@
+// Default Vertex Shader
+// Color + Normal
+
+void main(float4 position     : POSITION,
+          float3 normal        : NORMAL,
+          float4 color0      :COLOR0,
+  uniform float4x4 ModelViewProj,
+  uniform float4x4 ModelViewIT , 
+
+      out float4 ppos         : POSITION,
+      out float3 pnormal       : TEXCOORD0,
+      out half4 pcolor       : COLOR0
+)
+{
+  ppos = mul(ModelViewProj, position);
+  pcolor = (half4) color0; 
+  pnormal = mul((float3x3)ModelViewIT, normal);
+}

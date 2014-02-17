@@ -1,0 +1,14 @@
+<config>
+ <ports>
+  <port name="data" direction="out"/>
+ </ports>
+ <code>
+  <path name="produce" plugin="produce" out="data"/>
+ </code>
+ <plugins>
+  <plugin name="produce" so="ProducePlug" service="dataservice"/>
+ </plugins>
+ <services>
+	 <service name="dataservice" so="DataService"/>
+ </services>
+</config>

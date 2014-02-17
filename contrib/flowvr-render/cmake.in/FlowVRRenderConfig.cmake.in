@@ -1,0 +1,23 @@
+SET(FLOWVRRENDER_PREFIX @CMAKE_BINARY_DIR@ CACHE PATH "Path to FlowVR Render root")
+SET(FLOWVRRENDER_INCLUDE_DIR  @FlowVRRender_SOURCE_DIR@/include)
+
+SET(FLOWVR_BALZAC_DIR ${FlowVR_SOURCE_DIR}/flowvr-render)
+
+SET(FLOWVR_BALZAC_INCLUDE_DIR ${FLOWVR_BALZAC_DIR}/include/flowvr/render/balzac/servicelayer 
+                       ${FLOWVR_BALZAC_DIR}/include/flowvr/render/balzac/data
+                       ${FLOWVR_BALZAC_DIR}/include/flowvr/render/balzac 
+                       ${FLOWVR_BALZAC_DIR}/include )
+                       
+SET(FLOWVR_BALZAC_COMP_INCLUDE_DIR ${FLOWVR_BALZAC_DIR}/include/flowvr/render/balzac/components )                    
+
+SET(FLOWVR_BALZAC_LIBRARY @LIBRARY_OUTPUT_PATH@/flowvr-balzacservicelayer@CMAKE_SHARED_LIBRARY_SUFFIX@)
+SET(FLOWVR_BALZAC_COMP_LIBRARY @LIBRARY_OUTPUT_PATH@/libfiltermultiplexmerge.comp@CMAKE_SHARED_LIBRARY_SUFFIX@  
+                        @LIBRARY_OUTPUT_PATH@/libbalzacbasic.comp@CMAKE_SHARED_LIBRARY_SUFFIX@
+                        @LIBRARY_OUTPUT_PATH@/libbalzaclostinspaceviewer.comp@CMAKE_SHARED_LIBRARY_SUFFIX@  )
+                         
+SET(FLOWVR_BALZAC_AUX_LIBRARY @LIBRARY_OUTPUT_PATH@/libflowvr-balzacmsgtypes@CMAKE_SHARED_LIBRARY_SUFFIX@ )
+SET(FLOWVR_BALZAC_LIBRARIES ${FLOWVR_BALZAC_LIBRARY} ${FLOWVR_BALZAC_COMP_LIBRARY} ${FLOWVR_BALZAC_AUX_LIBRARIES} )
+ 
+SET(FLOWVRRENDER_LIBRARY @LIBRARY_OUTPUT_PATH@/libflowvr-render@CMAKE_SHARED_LIBRARY_SUFFIX@)
+SET(FLOWVR_render_comp_LIBRARY ${FLOWVR_BALZAC_COMP_LIBRARY} )
+SET(FLOWVRRENDER_FOUND TRUE)

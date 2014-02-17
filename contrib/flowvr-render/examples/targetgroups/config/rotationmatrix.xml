@@ -1,0 +1,14 @@
+<config>
+	<ports>
+		<port name="matrix" direction="out"/>
+	</ports>
+	<stamplists/>
+	<code>
+		<path name="matrix" plugin="matrixout" out="matrix"/>
+	</code>
+	<plugins>
+		<plugin name="matrixout" so="rotationmatrixPlug"/>
+	</plugins>
+	<services>
+	</services>
+</config>

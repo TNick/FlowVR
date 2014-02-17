@@ -1,0 +1,14 @@
+<config>
+	<ports>
+		<port name="viewport" direction="in"/>
+		<port name="projection" direction="out" />
+	</ports>
+	<stamplists/>
+	<code>
+		<path name="project" plugin="perspectiveOut" in="viewport" out="projection"/>
+	</code>
+	<plugins>
+		<plugin name="perspectiveOut" so="perspoutPlug"/>
+	</plugins>
+	<services/>
+</config>

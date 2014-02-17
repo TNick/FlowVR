@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Compute a graph from a .net.xml file
+# Usage:   flowvr-glgraph  -Tjpeg -ograph.jpg < mygraph.net.xml
+
+PREFIXbin="$(dirname "$0")"
+
+NET2DOT=$PREFIXbin/../share/flowvr/parse/xsl/flowvr-net2dot.xsl
+
+XSLT=xsltproc
+DOT=dot
+
+
+if [ $# -eq 0 ]; then
+# no option, simply output dot graph
+${XSLT} --novalid ${NET2DOT} -
+else
+# pipe dot graph to generate required output
+${XSLT} --novalid ${NET2DOT} - | ${DOT} $*
+fi;

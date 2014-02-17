@@ -1,0 +1,34 @@
+VTK FlowVR
+==========
+
+======================================================================
+For an UP-TO-DATE documentation about the installation, look at the
+FlowVR Render getting started guide:
+http://flowvr.sourceforge.net/VTKFlowVR.php
+======================================================================
+	
+
+Overview
+--------
+
+VTK FlowVR aims at providing interactions between VTK and FlowVR/FlowVR Render.
+It enables for instance to render VTK applications on a multi-projector
+environment.
+
+FlowVR  Render  is  a  project  of  the  Laboratoire  Informatique  et
+Distribution, Grenoble.
+
+Compilation
+-----------
+
+cd <vtk-flowvr source tree>
+
+mkdir build
+cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/where/to/be/installed
+make
+
+Installation
+------------
+
+make install
+

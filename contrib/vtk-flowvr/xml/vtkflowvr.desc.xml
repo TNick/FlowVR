@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE metamoduledesc  SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/metamoduledesc.dtd" >
+<metamoduledesc>
+<metamoduledescription>
+<run>flowvr-run-ssh -e DISPLAY ${DISPLAY:-:0} <host>localhost</host> vtk <template id="script">../Examples/Tcl/warpComb.tcl</template></run>
+<modulelist>
+  <script shell="/bin/bash">
+    echo '  &lt;module id="<metamoduleid/>" host="<host/>"&gt;';
+    echo '    &lt;input&gt;';
+    for i in <template id="inputs">beginIt</template>;
+    do
+      echo "      &lt;port id=\"$i\"&gt;";
+      echo '      &lt;datatype/&gt;';
+      echo '      &lt;/port&gt;';
+    done
+    echo '    &lt;/input&gt;';
+    echo '    &lt;output&gt;';
+    for i in <template id="outputs">endIt</template>;
+    do
+      echo "      &lt;port id=\"$i\"&gt;";
+      echo '      &lt;datatype/&gt;';
+      echo '      &lt;/port&gt;';
+    done
+    echo '    &lt;/output&gt;';
+    echo '  &lt;/module&gt;';
+  </script>
+</modulelist>
+</metamoduledescription>
+</metamoduledesc>

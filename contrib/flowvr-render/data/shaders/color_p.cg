@@ -1,0 +1,9 @@
+// Line Pixel Shader
+// Color
+
+half4 main(
+          half4 pcolor       : COLOR
+  ) : COLOR
+{
+  return pcolor;
+}

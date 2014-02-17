@@ -1,0 +1,4 @@
+Scripts that are used to trigger nightly tests on the pipol compilation farm (pipol.inria.fr).
+
+See dash board at:
+http://cdash.inria.fr/CDash/index.php?project=FlowVR

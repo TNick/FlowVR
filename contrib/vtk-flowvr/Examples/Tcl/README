@@ -1,0 +1,13 @@
+VTK FlowVR Examples
+===================
+
+To run the examples provided with the vtkflowvr package, you need to follow the following steps:
+
+- Ensure that you have correctly set the environment variables by sourcing :
+  * <flowvr-installdir>/bin/flowvr-suite-config.sh
+  * <flowvr-installdir>/bin/vtk-flowvr-config.sh
+
+- Launch flowvr with the vtkflowvr library and the path to the Tcl script to be executed.
+
+For example, if you want to run the quadric example, first go to the example directory then launch :
+flowvr -x -L vtkFlowVR -Pvtkflowvr:VTK_SCRIPT=./modules/quadric.tcl

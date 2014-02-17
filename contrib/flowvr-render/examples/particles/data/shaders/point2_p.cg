@@ -1,0 +1,8 @@
+// Simple Mesh Pixel Shader
+
+float4 main(
+float4 pcolor : COLOR
+  ) : COLOR
+{
+  return pcolor;
+}

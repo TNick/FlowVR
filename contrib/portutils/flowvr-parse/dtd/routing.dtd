@@ -1,0 +1,16 @@
+
+<!ELEMENT routing(cluster*,host*,network*)>
+
+<!ELEMENT cluster(network*,host*)>
+<!ATTLIST cluster id CDATA #IMPLIED>
+
+<!ELEMENT network EMPTY>
+<!ATTLIST network netid CDATA #REQUIRED>
+
+<!ELEMENT host(id*,ni+)>
+<!ATTLIST host id ID #IMPLIED>
+
+<!ELEMENT ni(id+)>
+<!ATTLIST ni netid CDATA #REQUIRED>
+
+<!ELEMENT id (#PCDATA)>

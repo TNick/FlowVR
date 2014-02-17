@@ -1,0 +1,11 @@
+// SkyBox Pixel Shader
+// Cubemap lookup
+
+half4 main(
+  half3 ptex0   : TEXCOORD0,
+  uniform samplerCUBE texture
+) : COLOR
+{
+  return texCUBE(texture, ptex0);
+  //return half4(1,0,0,1);
+}

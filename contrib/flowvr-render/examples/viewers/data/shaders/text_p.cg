@@ -1,0 +1,13 @@
+// Text Pixel Shader
+// Texture
+
+float4 main(
+  float4 pcolor  : COLOR,
+  float2 ptex0   : TEXCOORD0,
+  uniform sampler2D texture
+) : COLOR
+{
+  float4 c = tex2D(texture, ptex0);
+  c.rgb = 1;
+  return c*pcolor;
+}

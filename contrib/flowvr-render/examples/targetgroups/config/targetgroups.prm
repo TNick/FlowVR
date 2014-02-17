@@ -1,0 +1,33 @@
+targetgroups/renderer:interface=balzac-normal-withbg.xml
+targetgroups/renderer/BalzacBasic/BalzacRenderer:plugins-bgimage-IMAGENAME=images/flowvr-logo-hr.png
+targetgroups/renderer:services-Balzac-displayfile=./config/balzac-config.xml
+
+targetgroups/renderer/navigate:plugins-setcamparams-POSITION=0.25,0.25,0.5
+targetgroups/renderer/navigate:plugins-setcamparams-UPVECTOR=0,1,0
+targetgroups/renderer/navigate:plugins-setcamparams-CENTER=0,0,0
+
+# ROTOFFSET is always local in viewdirection
+targetgroups/renderer/navigate:plugins-mousecam-ROTOFFSET=0,0,-0.5
+targetgroups/renderer/navigate:plugins-keydispatch-TSCALE=0.125
+targetgroups/renderer/navigate:plugins-keydispatch-RSCALE=1
+
+
+################################################################
+## MIRROR
+################################################################
+targetgroups/mirror:plugins-sceneout-POSITION=0,0,0
+targetgroups/mirror:plugins-sceneout-CLEARCOLOR=0.05,0.05,0.05,0.0
+
+targetgroups/rotation:plugins-matrixout-VELOCITY=20
+targetgroups/rotation:plugins-matrixout-AXIS=0,1,1
+targetgroups/rotation:plugins-matrixout-PIVOT=0,0,0.25
+targetgroups/rotation:plugins-matrixout-SCALE=1
+
+
+################################################################
+## MODEL VIEWER
+################################################################
+
+targetgroups/viewer:ViewerExecName=flowvr-viewer-mesh
+targetgroups/viewer:ViewerExecParameters=-f -m config/matrix_transform.mtx models/bunny.obj
+

@@ -1,0 +1,14 @@
+// Simple Point Vertex Shader
+
+void main(
+  float4 position    : POSITION,
+  uniform float4x4 ModelViewProj,
+  uniform float4x4 ModelView,
+  uniform float size,
+      out float psize        : PSIZE,
+      out float4 ppos        : POSITION)
+{
+  ppos = mul(ModelViewProj, position);
+  float4 p = mul(ModelView, position);
+  psize = size * p.w / -p.z;
+}

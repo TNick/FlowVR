@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE metamodulelist  SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/metamodulelist.dtd" >
+<metamodulelist>
+  <metamodule id="Visu">
+    <metamoduledescription>flowvr-renderer.desc.xml</metamoduledescription>
+    <template id="args">--black</template>
+    <host>localhost</host>
+    <run />
+    <modulelist />
+  </metamodule>
+  <metamodule id="VTK">
+    <metamoduledescription>vtk.desc.xml</metamoduledescription>
+    <template id="script">$FLOWVR_PWD/modules/skull.tcl</template>
+    <host>localhost</host>
+    <run/>
+    <modulelist/>
+  </metamodule>
+</metamodulelist>

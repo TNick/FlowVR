@@ -1,0 +1,21 @@
+MESSAGE(STATUS "Looking for FlowVR fluid module")
+
+GET_TARGET_PROPERTY(FLUID_MODULE fluid LOCATION)
+IF(NOT FLUID_MODULE)
+  FIND_PROGRAM(FLUID_MODULE NAMES fluid PATHS
+    ${FLOWVR_PREFIX}/share/flowvr/modules/bin
+    NO_SYSTEM_PATH)
+ENDIF(NOT FLUID_MODULE)
+
+IF(${FLUID_MODULE} MATCHES ".*-NOTFOUND")
+  MESSAGE(STATUS "Looking for FlowVR fluid module -- not found")
+  MESSAGE("FlowVR fluid module not found vtkFlowVR tests disabled.")
+ELSE(${FLUID_MODULE} MATCHES ".*-NOTFOUND")
+  MESSAGE(STATUS "Looking for FlowVR fluid module -- ${FLUID_MODULE}")
+  FOREACH(CURRENT testflowvr.sh testboth.sh testrender.sh)
+    CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/${CURRENT}.in" "${CMAKE_CURRENT_BINARY_DIR}/${CURRENT}" @ONLY)
+    EXEC_PROGRAM("chmod 755 ${CMAKE_CURRENT_BINARY_DIR}/${CURRENT}")
+  ENDFOREACH(CURRENT)    
+ENDIF(${FLUID_MODULE} MATCHES ".*-NOTFOUND")
+
+

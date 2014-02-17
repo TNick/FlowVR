@@ -1,0 +1,26 @@
+// Video Pixel Shader
+// Texture
+
+float3 main(
+  half2 ptex0   : TEXCOORD0,
+  uniform samplerRECT textureY,
+  uniform samplerRECT textureU,
+  uniform samplerRECT textureV
+) : COLOR
+{
+  float3 yuv;
+  yuv.x = texRECT(textureY, ptex0)-(1.0/16);
+  yuv.y = texRECT(textureU, ptex0)-0.5;
+  yuv.z = texRECT(textureV, ptex0)-0.5;
+
+  float3 c;
+
+  c.r = yuv*float3( 1.164, 0    , 2.018);
+  c.g = yuv*float3( 1.164,-0.813, 2.018);
+  c.b = yuv*float3( 1.164, 1.596, 0    );
+
+  c.r = 1;
+
+//  c = abs(ddx(c))+abs(ddy(c));
+  return c;
+}

@@ -1,0 +1,24 @@
+// Sphere Pixel Shader
+// Per-pixel diffuse lighting
+// Texture + color blended depending on texture alpha
+
+half3 unit(half3 v) { return normalize(v); }
+// GeForce <= 4 don't support normalize
+fp20 half3 unit(half3 v) { return v; }
+
+half3 main(
+  half2 ptex0   : TEXCOORD0,
+  half3 pnormal : TEXCOORD1,
+  half3 pcolor  : COLOR,
+  uniform sampler2D texture,
+  uniform float3 lightdir
+) : COLOR
+{
+  half4 T = tex2D(texture, ptex0);
+  half3 C = T.aaa + (1.-T.aaa)*pcolor;
+  half3 N = unit(pnormal);
+  C = C*T.xyz;
+  half diffuse = saturate(dot(N,lightdir));
+  C = C*(0.5*diffuse+0.5);
+  return C;
+}

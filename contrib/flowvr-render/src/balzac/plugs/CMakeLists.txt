@@ -1,0 +1,5 @@
+ADD_SUBDIRECTORY( balzac-core )
+ADD_SUBDIRECTORY( bounds )
+ADD_SUBDIRECTORY( camera )
+ADD_SUBDIRECTORY( transform )
+

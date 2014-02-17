@@ -1,0 +1,115 @@
+// Volume Pixel Shader
+
+#define PREMULT
+
+uniform sampler3D texture; // input data texture
+uniform sampler1D ttransfer; // transfer function texture
+
+float4 volume0(float3 p)
+{
+  float data = f1tex3D(texture, p);
+//  return float4(1,1,1,data);
+  return tex1D(ttransfer, data);
+}
+
+float4 volume1(float3 p)
+{
+  float data = f1tex3D(texture, p);
+//  return float4(1,1,1,data);
+  return tex1D(ttransfer, data);
+}
+
+float4 volume2(float3 p)
+{
+  float data = f1tex3D(texture, p);
+//  return float4(1,1,1,data);
+  return tex1D(ttransfer, data);
+}
+
+uniform int steps = 32;
+uniform float inv_steps = 1.0f/32;
+
+// Standard alpha blending
+float4 volstep0(float3 p)
+{
+  float4 s = volume0(p);
+  return s;
+}
+
+// Standard alpha blending
+float4 volstep1(float4 c, float3 p)
+{
+  float4 s = volume1(p);
+#ifndef PREMULT
+  c.xyz += s.xyz*s.w*c.w;
+  c.w *= (1-s.w);
+#else
+  c.xyz += s.xyz*c.w;
+  c.w *= s.w;
+#endif
+  return c;
+}
+
+// Standard alpha blending
+float4 volstep2(float4 c, float3 p)
+{
+  float4 s = volume2(p);
+#ifndef PREMULT
+  c.xyz += s.xyz*s.w*c.w;
+  c.w *= (1-s.w);
+#else
+  c.xyz += s.xyz*c.w;
+  c.w *= s.w;
+#endif
+  return c;
+}
+
+float4 raycast(float3 p, float3 dp)
+{
+  float4 c = volstep0(p);
+  for (int i=0;i<steps;i++)
+  {
+    p += dp;
+    c = volstep1(c,p);
+    p += dp;
+    c = volstep2(c,p);
+  }
+  return c;
+}
+
+float4 main(
+  float4 ray_o   : TEXCOORD0,
+  float3 ray_d   : TEXCOORD1) : COLOR
+{
+  ray_d = normalize(ray_d);
+  //ray_o.xyz /= ray_o.w;
+  //return float4(ray_d,1);
+
+  // Intersect Box
+  float3 invR = 1/ray_d;
+  float3 tbot = invR*(1-ray_o.xyz);
+  float3 ttop = invR*(-ray_o.xyz);
+  // reorder intersections to find smallest and largest on each axis
+  float3 tmin = min(ttop, tbot);
+  float3 tmax = max(ttop, tbot);
+  // find the largest tmin and the smallest tmax
+  float2 t0 = max (tmin.xx, tmin.yz);
+  float tnear = max (t0.x, t0.y);
+  float2 t1 = min (tmax.xx, tmax.yz);
+  float tfar = min (t1.x, t1.y);
+
+  if (tnear>tfar) discard;
+
+  //int ifar = (int)(tfar*steps);
+  //return fmod((ifar)*inv_steps,1).xxxx;
+  int inear = (int)(tnear*steps+1);
+  //int nstep = (int)(tfar*steps-inear);
+  ray_d *= inv_steps;
+  float3 pos = ray_o.xyz + inear*ray_d;
+
+  float4 c = raycast(pos, ray_d);
+  
+  c.w = 1-c.w;
+
+  return c;
+}

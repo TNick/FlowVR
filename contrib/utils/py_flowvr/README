@@ -1,0 +1,103 @@
+What is this?
+=============
+
+This is a layer above the flowvr:: framework used to describe FlowVR
+modules in Python. 
+
+How does it work?
+=================
+
+The most useful functions from flowvr-base and flowvr-mod are made
+available in Python. Therefore, a module can be implemented in
+Python. 
+
+The interface is mostly the same as the C++ version. The major change
+is in how stamps are handled. Adding a stamp to an OutputPort is done
+with:
+
+  outPort.addStamp("mycounter", type(1)) 
+
+It uses Python types: type() is a Python function. To use
+non-standard stamps, MessageWrite must be linked to the port they will
+be sent on: 
+
+  outMessage = MessageWrite(outPort.stamps)
+
+  outMessage.setStamp("mycounter", 20)
+
+Stamps are declared autmatically for incomming messages, eg.
+
+  inMessage.getStamp("mycounter")
+ 
+works out-of-the-box.
+
+The interface is not intended to be fast: Python is 100x-1000x slower
+than a compiled language. Apart from the slightly more compact syntax,
+the main advantage is that modules do not need to be compiled or
+installed.
+
+Files
+=====
+
+The Python flowvr relies on 3 files: 
+
+- cflowvr.swg: describes the interface (specifying include files and 
+extra C++ functions). Compiles to _cflowvr.so and cflowvr.py.
+
+- flowvr.py: defines a few new classes to simplify most standard
+operations.
+
+- Makefile. Compiles the SWIG interface
+
+Example
+=======
+
+The classical tictac example can be written as: 
+
+
+put.py
+------
+
+import flowvr
+
+# declare ports and open connection
+
+ports = flowvr.vectorPort()
+port = flowvr.OutputPort('text')
+ports.push_back(port)
+module = flowvr.initModule(ports);
+
+it = 0
+while module.wait():
+  message = flowvr.MessageWrite()
+  
+  if it % 2 == 0: say = "tic" 
+  else:           say = "tac"        
+  message.data = module.allocString(say)
+
+  # send 
+  port.put(message)
+
+  # wait 1 second
+  time.sleep(1.0)
+
+  it += 1
+
+module.close()
+
+
+get.py
+------
+
+import flowvr
+
+ports = flowvr.vectorPort()
+port = flowvr.InputPort('text')
+ports.push_back(port)
+module = flowvr.initModule(ports);
+  
+while module.wait():
+  message = port.get()   
+  print "got", message.data.asString()
+
+module.close()

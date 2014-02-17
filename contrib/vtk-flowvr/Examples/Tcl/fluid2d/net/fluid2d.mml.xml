@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="LATIN1" ?>
+<!DOCTYPE metamodulelist  SYSTEM "http://flowvr.sf.net/flowvr-parse/dtd/metamodulelist.dtd">
+<metamodulelist>
+    <metamodule id="Visu">
+      <metamoduledescription>vtkflowvr.desc.xml</metamoduledescription>
+        <host>localhost</host>
+	<template id="script">$FLOWVR_PWD/modules/fluid2d.tcl</template>
+	<template id="inputs">beginIt density</template>
+        <run />
+        <modulelist />
+    </metamodule>
+    <metamodule id="Simu">
+      <metamoduledescription id="fluid-mpi">fluid-mpi.desc.xml</metamoduledescription>
+      <host>localhost</host>
+      <run id="local"/>
+      <modulelist id="local"/>
+    </metamodule>
+</metamodulelist>

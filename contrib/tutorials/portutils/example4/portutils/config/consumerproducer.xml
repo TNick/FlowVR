@@ -1,0 +1,17 @@
+<config>
+ <ports>
+  <port name="eatdata" direction="in"/>
+  <port name="data" direction="out"/>
+ </ports>
+ <code>
+  <path name="consume" plugin="consume" in="eatdata"/>
+  <path name="produce" plugin="produce" out="data"/>
+ </code>
+ <plugins>
+  <plugin name="produce" so="ProducePlug" service="dataservice"/>
+  <plugin name="consume" so="ConsumePlug" service="dataservice"/>
+ </plugins>
+ <services>
+	 <service name="dataservice" so="DataService"/>
+ </services>
+</config>

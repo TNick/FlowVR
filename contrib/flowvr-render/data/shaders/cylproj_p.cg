@@ -1,0 +1,23 @@
+// Cylindrical Projection Pixel Shader
+
+half4 main(
+  float2 ptex0   : TEXCOORD0,
+  uniform samplerRECT texture,
+  uniform float2 texsize
+) : COLOR
+{
+  float fov = 140.0 * 3.1415927 / 180.0;
+  float aspect = 1.666667; //(1280.0/768.0)
+
+  // X coordinate is reinterpreted as an angle
+  float x_ang = ptex0.x * fov * 0.5;
+  float x_sin, x_cos;
+  float b_sin, b_cos;
+  sincos(x_ang, x_sin, x_cos);
+  sincos(fov*0.5, b_sin, b_cos);
+  float x_in = (x_sin * b_cos) / (x_cos * b_sin);
+  float y_in = ptex0.y; // * b_cos / x_cos;
+
+  half4 c = texRECT(texture, float2((x_in+1.0)*0.5*texsize.x, (y_in+1.0)*0.5*texsize.y) );
+  return c;
+}

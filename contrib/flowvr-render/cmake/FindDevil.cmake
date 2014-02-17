@@ -1,0 +1,104 @@
+# - Find devil
+# Find the native DevIL includes and library
+#
+#  Devil_INCLUDE_DIR - where to find IL/il.h, etc.
+#  Devil_LIBRARIES   - List of libraries when using IL.
+#  Devil_FOUND       - True if IL found.
+
+IF (Devil_INCLUDE_DIR)
+  # Already in cache, be silent
+  SET(Devil_FIND_QUIETLY TRUE)
+ENDIF (Devil_INCLUDE_DIR)
+
+FIND_LIBRARY(Devil_IL_LIBRARY
+  NAMES IL
+  PATHS
+  ${PROJECT_BINARY_DIR}/lib64
+  ${PROJECT_BINARY_DIR}/lib
+  ${PROJECT_SOURCE_DIR}/lib64
+  ${PROJECT_SOURCE_DIR}/lib
+  ENV LD_LIBRARY_PATH
+  ENV LIBRARY_PATH
+  /usr/lib64
+  /usr/lib
+  /usr/local/lib64
+  /usr/local/lib
+  NO_DEFAULT_PATH
+)
+FIND_LIBRARY(Devil_IL_LIBRARY NAMES IL)
+
+FIND_LIBRARY(Devil_ILU_LIBRARY
+  NAMES ILU
+  PATHS
+  ${PROJECT_BINARY_DIR}/lib64
+  ${PROJECT_BINARY_DIR}/lib
+  ${PROJECT_SOURCE_DIR}/lib64
+  ${PROJECT_SOURCE_DIR}/lib
+  ENV LD_LIBRARY_PATH
+  ENV LIBRARY_PATH
+  /usr/lib64
+  /usr/lib
+  /usr/local/lib64
+  /usr/local/lib
+  NO_DEFAULT_PATH
+)
+FIND_LIBRARY(Devil_ILU_LIBRARY NAMES ILU)
+
+FIND_LIBRARY(Devil_ILUT_LIBRARY
+  NAMES ILUT
+  PATHS
+  ${PROJECT_BINARY_DIR}/lib64
+  ${PROJECT_BINARY_DIR}/lib
+  ${PROJECT_SOURCE_DIR}/lib64
+  ${PROJECT_SOURCE_DIR}/lib
+  ENV LD_LIBRARY_PATH
+  ENV LIBRARY_PATH
+  /usr/lib64
+  /usr/lib
+  /usr/local/lib64
+  /usr/local/lib
+  NO_DEFAULT_PATH
+)
+FIND_LIBRARY(Devil_ILUT_LIBRARY NAMES ILUT)
+
+GET_FILENAME_COMPONENT(Devil_LIBRARY_DIR "${Devil_IL_LIBRARY}" PATH)
+GET_FILENAME_COMPONENT(Devil_LIBRARY_SUPER_DIR "${Devil_LIBRARY_DIR}" PATH)
+
+FIND_PATH(Devil_INCLUDE_DIR IL/il.h
+  PATHS
+  ${PROJECT_BINARY_DIR}/include
+  ${PROJECT_SOURCE_DIR}/include
+  ${Devil_LIBRARY_SUPER_DIR}/include
+  ENV CPATH 
+  /usr/local/include
+  /usr/include
+  NO_DEFAULT_PATH
+)
+FIND_PATH(Devil_INCLUDE_DIR IL/il.h)
+
+IF (Devil_INCLUDE_DIR AND Devil_IL_LIBRARY)
+   SET(Devil_FOUND TRUE)
+    SET( Devil_LIBRARIES ${Devil_IL_LIBRARY} ${Devil_ILU_LIBRARY} ${Devil_ILUT_LIBRARY})
+ELSE (Devil_INCLUDE_DIR AND Devil_IL_LIBRARY)
+   SET(Devil_FOUND FALSE)
+   SET( Devil_LIBRARIES )
+ENDIF (Devil_INCLUDE_DIR AND Devil_IL_LIBRARY)
+
+IF (Devil_FOUND)
+   IF (NOT Devil_FIND_QUIETLY)
+      MESSAGE(STATUS "Found Devil: ${Devil_LIBRARIES}")
+   ENDIF (NOT Devil_FIND_QUIETLY)
+ELSE (Devil_FOUND)
+   IF (Devil_FIND_REQUIRED)
+      MESSAGE(FATAL_ERROR "Could NOT find Devil library")
+   ENDIF (Devil_FIND_REQUIRED)
+ENDIF (Devil_FOUND)
+
+MARK_AS_ADVANCED(
+  Devil_LIBRARIES
+  Devil_INCLUDE_DIR
+  Devil_IL_LIBRARY	
+  Devil_ILU_LIBRARY	
+  Devil_ILUT_LIBRARY
+  )
+

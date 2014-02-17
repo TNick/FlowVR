@@ -1,0 +1,15 @@
+genericviewer/renderer:interface=balzac-normal.xml
+
+genericviewer/renderer:services-Balzac-displayfile=./config/balzac-config.xml
+
+genericviewer/renderer/navigate:plugins-setcamparams-POSITION=0.5,-1,2
+genericviewer/renderer/navigate:plugins-setcamparams-UPVECTOR=0,0,1
+genericviewer/renderer/navigate:plugins-setcamparams-CENTER=0,1,0
+
+# ROTOFFSET is always local in viewdirection
+genericviewer/renderer/navigate:plugins-mousecam-ROTOFFSET=0,0,-2
+
+
+## APPLICATION SPECIFIC SETTINGS
+genericviewer/viewer:cmdline=fire
+genericviewer/ff:freq=20

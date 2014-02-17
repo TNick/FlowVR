@@ -1,0 +1,99 @@
+// Volume Pixel Shader
+
+// change this function to something better...
+float4 volume(float3 p)
+{
+  return float4(1,1,1,0.025);
+}
+
+uniform int steps = 32;
+
+uniform float opacity = 64;
+
+float4 volstep(float4 c, float3 p, float oscale)
+{
+  float4 s = volume(p);
+  s.w*=oscale;
+  c.xyz += s.xyz*s.w*c.w;
+  c.w *= (1-s.w);
+  return c;
+}
+
+fp40 float4 raycast(float4 c, float3 p, float3 p2, float l)
+{
+  float3 step = (p2-p)/(steps-1);
+  float oscale = opacity*l/(steps-1);
+  //return float4(oscale,opacity,40*oscale,0);
+  for (int i=0;i<steps;i++)
+  {
+    c = volstep(c,p,oscale);
+    p += step;
+  }
+  return c;
+}
+
+float4 raycast(float4 c, float3 p, float3 p2, float l)
+{
+  float3 step = (p2-p)/(8-1);
+  float oscale = opacity*l/(8-1);
+  //return float4(p,0);
+  //return float4(abs(step*10),0);
+  //return float4(oscale,2*oscale,40*oscale,0);
+/*
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+*/
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale); p+=step;
+  c = volstep(c,p,oscale);
+
+  return c;
+}
+
+float4 main(
+  float4 ray_o   : TEXCOORD0,
+  float3 ray_d   : TEXCOORD1) : COLOR
+{
+  ray_d = normalize(ray_d);
+  //ray_o.xyz /= ray_o.w;
+  //return float4(ray_d,1);
+
+  // Intersect Box
+  float3 invR = 1/ray_d;
+  float3 tbot = invR*(1-ray_o.xyz);
+  float3 ttop = invR*(-ray_o.xyz);
+  // reorder intersections to find smallest and largest on each axis
+  float3 tmin = min(ttop, tbot);
+  float3 tmax = max(ttop, tbot);
+  // find the largest tmin and the smallest tmax
+  float2 t0 = max (tmin.xx, tmin.yz);
+  float tnear = max (t0.x, t0.y);
+  float2 t1 = min (tmax.xx, tmax.yz);
+  float tfar = min (t1.x, t1.y);
+
+  if (tnear>tfar) discard;
+
+  //return (tfar-tnear).xxxx;
+
+  float3 pnear = ray_o.xyz + tnear * ray_d;
+  float3 pfar = ray_o.xyz + tfar * ray_d;
+
+  float4 c = float4(0,0,0,1);
+
+  c = raycast(c,pnear,pfar,tfar-tnear);
+
+  c.w = 1-c.w;
+
+  return c;
+}

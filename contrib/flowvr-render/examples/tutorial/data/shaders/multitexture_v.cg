@@ -1,0 +1,24 @@
+// simple 'multitexture' shader to show the effect.
+// for each fragment, we get the position (local space)
+// and the texture-coordinate to use for the point,
+// as well as the model-view-projection matrix to transform each point
+// into world space.
+
+// we output 
+// - the final position as PPOS
+// - the color value to use (we pass this to the pixel shader)
+// - the texcoord to use in the pixel shader (is a simple copy from the input for this fragment)
+
+void main(  float4 position : POSITION,
+            float2 texcoord0: TEXCOORD0,
+  	    uniform float4x4 ModelViewProj,
+		
+     		out float4   PPOS : POSITION,
+		    out half2    ptex0: TEXCOORD0
+)
+{
+	// transform the fragment
+    PPOS = mul(ModelViewProj, position);
+    // select the tex-coord to use
+    ptex0 = texcoord0;
+}

@@ -1,0 +1,78 @@
+    FlowVR Parse
+
+
+
+This package provides the tools necessary to handle
+the different xml files a FlowVR application need.   
+
+Prerequisites
+=============
+
+flowvr-base and flowvrd must be properly installed.
+
+openjade should be  installed to validate xml 
+files against the DTD provided with flowvr-parse.
+With a Mandrake distribution with configured urpmi resources: 
+  urpmi -a openjade
+
+openjade is note mandatory but strongly recommended.
+
+To be able to generate graphical representations of flowvr networks it
+is also recommended to install xsltproc and graphviz. 
+
+Compilation
+===========
+
+Simply use 'make' in the root directory. This should create the
+flowvr-module and flowvr-network programs in the bin directory.
+
+
+Installation
+============
+
+To easily access the executables from the  bin directry add it to your path:
+
+export PATH=path/to/flowvr-parse/bin:$PATH
+
+If you have openjade installed, set the environment variable SGML_CATALOG_FILES
+properly so nsgml can  find the xml catalog provided with openjade . It should look 
+something like:
+
+SGML_CATALOG_FILES=/path/to/xml.soc
+
+Also add the path to the   flowvr-parse catalog provided:
+
+export SGML_CATALOG_FILES=/path/to/flowvr-parse/dtd/flowvr-sgml.cat:$SGML_CATALOG_FILES
+
+Test
+====
+
+
+flowvr-module
+-------------
+if you have openjade installed and configured:
+
+cd  test
+./flowvr-module-test.sh -dtd
+
+otherwise 
+
+cd  test
+./flowvr-module-test.sh 
+
+Look at the files  availabe in this directory. 
+This very instructive to understand what is going on.
+
+flowvr-network
+--------------
+
+Note
+====
+
+Note that there exists several free xml editors.
+
+Emacs  (and Xemacs) has an xml-mode that provides completion on tag names, etc.
+(xml-mode provided by the psgml package usually already enclosed with emacs packages).
+With openjade installed xml files  can directly be validated from emacs.
+
+

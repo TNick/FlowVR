@@ -1,0 +1,67 @@
+#!/bin/sh
+
+# This script is just for a quick FlowVR Viewer test.
+
+FLOWVR_PREFIX="@INSTALL_PREFIX@"
+
+
+echo
+echo  ===== Launch daemon =====
+echo
+
+env -i PATH=$PATH \
+    USER=$USER \
+    HOME=$HOME \
+    DYLD_LIBRARY_PATH="${FLOWVR_PREFIX}/lib"  \
+    LD_LIBRARY_PATH="${FLOWVR_PREFIX}/lib"   \
+    FLOWVR_PREFIX="${FLOWVR_PREFIX}" \
+    "${FLOWVR_PREFIX}/bin/flowvrd" &
+    
+sleep 1
+
+
+echo
+echo ===== Launch @VIEWER_COMP_CLASS@ ======
+echo
+
+VIEWER="spheres"
+
+if [ $# -gt 0 ]
+then
+    VIEWER=$1
+fi
+
+# use the -i option to make sure the environment is not 
+# polluted by previous FlowVR installations
+
+env -i DISPLAY=$DISPLAY \
+       USER=$USER \
+       HOME=$HOME \
+       DYLD_LIBRARY_PATH="${FLOWVR_PREFIX}/lib:${FLOWVR_PREFIX}/lib/flowvr/components:${FLOWVR_PREFIX}/share/flowvr-render/balzac/plugs:${FLOWVR_PREFIX}/share/flowvr-render/balzac/services" \
+       LD_LIBRARY_PATH="${FLOWVR_PREFIX}/lib:${FLOWVR_PREFIX}/lib/flowvr/components:${FLOWVR_PREFIX}/share/flowvr-render/balzac/plugs:${FLOWVR_PREFIX}/share/flowvr-render/balzac/services" \
+       PATH="${FLOWVR_PREFIX}/bin:${FLOWVR_PREFIX}/@MODULE_BIN_DIR@:$PATH" \
+	   FLOWVR_RENDER_PREFIX=${FLOWVR_RENDER_PREFIX} \
+       FLOWVR_DATA_PATH="${FLOWVR_PREFIX}/share/flowvr-render/data:${FLOWVR_PREFIX}/share/flowvr-render/examples/viewers/data" \
+       FLOWVR_PORTFILE_PATH="${FLOWVR_PREFIX}/share/flowvr-render/data/config:${FLOWVR_PREFIX}/share/flowvr-render/data/config/modules" \
+       "${FLOWVR_PREFIX}/bin/flowvr"  \
+       --localhost  \
+       --launch \
+       --complib "${FLOWVR_PREFIX}/lib/flowvr/components/lib@VIEWER_COMP_LOWER@.comp@CMAKE_SHARED_LIBRARY_SUFFIX@" \
+         -Q "${FLOWVR_PREFIX}/share/flowvr-render/examples/viewers/config/@VIEWER_COMP_LOWER@-${VIEWER}.prm" \
+         -P "@VIEWER_COMP_LOWER@/renderer:services-Balzac-displayfile=${FLOWVR_PREFIX}/share/flowvr-render/data/config/window/balzac-config.xml" \
+         @VIEWER_COMP_LOWER@
+ 
+
+echo
+echo ===== Press enter to stop  =====
+echo
+
+read null
+
+echo
+echo ===== Kill @DEMO_COMP_CLASS@  application and daemon  ======
+echo
+
+
+flowvr-kill
+killall flowvrd

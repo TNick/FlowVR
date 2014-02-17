@@ -1,0 +1,84 @@
+#!/bin/bash
+
+# This script is just for a quick  FlowVR test. 
+
+FLOWVR_PREFIX="@INSTALL_PREFIX@"
+
+
+appstyle=py
+
+if [ "$1" == cpp ]; then
+    appstyle=cpp
+fi
+
+
+
+echo
+echo  ===== Launching FlowVR-Daemon =====
+echo
+
+env -i PATH=$PATH USER=$USER HOME=$HOME DYLD_LIBRARY_PATH="${FLOWVR_PREFIX}/lib"  LD_LIBRARY_PATH="${FLOWVR_PREFIX}/lib"   FLOWVR_PREFIX="${FLOWVR_PREFIX}" "${FLOWVR_PREFIX}/bin/flowvrd" &
+sleep 1
+
+if [ $appstyle == py ]; then 
+
+    
+    
+    # path to .xml files is relative, so go to correct directory
+
+    cd ${FLOWVR_PREFIX}/share/flowvr/examples/@DEMO_COMP_LOWER@
+    
+    echo
+    echo ===== Compiling separate modules ======
+    echo
+    
+    ./make-app.sh
+    
+    echo
+    echo ===== Generating the application network ======
+    echo
+    python @DEMO_COMP_LOWER@.py
+
+fi
+
+echo
+echo ===== Launching @DEMO_COMP_CLASS@ ======
+echo
+
+#use the -i option to make sure the environment is not polluted by previous FlowVR installations
+
+
+if [ $appstyle == py ]; then 
+    flowvrargs="@DEMO_COMP_LOWER@"
+else
+    flowvrargs="--launch \
+        --complib "${FLOWVR_PREFIX}/lib/flowvr/components/lib@DEMO_COMP_LOWER@.comp@CMAKE_SHARED_LIBRARY_SUFFIX@" \
+         @DEMO_COMP_CLASS@" 
+fi
+
+env -i DISPLAY=$DISPLAY \
+       USER=$USER \
+       HOME=$HOME \
+       DYLD_LIBRARY_PATH="${FLOWVR_PREFIX}/lib:${FLOWVR_PREFIX}/lib/components" \
+       LD_LIBRARY_PATH="${FLOWVR_PREFIX}/lib:${FLOWVR_PREFIX}/lib/components" \
+       PATH="${FLOWVR_PREFIX}/bin:${FLOWVR_PREFIX}/@MODULE_BIN_DIR@:$PATH" \
+       \
+       echo ${LD_LIBRARY_PATH}; \
+       echo ${DYLD_LIBRARY_PATH}; \
+       echo `which flowvrd`; \
+       \
+       \
+       "${FLOWVR_PREFIX}/bin/flowvr"  \
+        $flowvrargs
+        
+echo
+echo ===== Press enter to stop  =====
+echo
+
+read null
+
+killall @MODULES_STRING@ flowvr flowvrd
+
+echo
+echo ===== Killed @DEMO_COMP_CLASS@  application and daemon  ======
+echo

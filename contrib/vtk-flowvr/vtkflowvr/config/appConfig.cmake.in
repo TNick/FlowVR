@@ -1,0 +1,10 @@
+# Cmake file for @app_cmake@  app_cmakelication
+# Define the following variables
+# @app_cmake@_FOUND if app_cmakelication  found
+# @app_cmake@_INCLUDE_DIR   path to include directories for  components 
+# @app_cmake@_LIBRARY       path to library of    components 
+
+SET(@app_cmake@_FOUND TRUE)
+
+SET(@app_cmake@_INCLUDE_DIRS @CMAKE_INSTALL_DIR@/@INCLUDE_DIR@)
+SET(@app_cmake@_LIBRARY @CMAKE_INSTALL_DIR@/@COMP_LIB_DIR@/lib@app_cmake@.comp@CMAKE_SHARED_LIBRARY_SUFFIX@)

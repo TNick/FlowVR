@@ -1,0 +1,12 @@
+#!/bin/sh
+
+export PATH="@CMAKE_INSTALL_PREFIX@/share/vtk-flowvr/modules/@MODULE_DIR@${PATH:+:${PATH}}"
+
+export LD_LIBRARY_PATH="@CMAKE_INSTALL_PREFIX@/lib/vtk${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+export DYLD_LIBRARY_PATH="@CMAKE_INSTALL_PREFIX@/lib/vtk${DYLD_LIBRARY_PATH:+:${DYLD_LIBRARY_PATH}}"
+
+
+export TCLLIBPATH="@CMAKE_INSTALL_PREFIX@/share/vtk-flowvr/Tcl/vtkflowvr @CMAKE_INSTALL_PREFIX@/share/vtk-flowvr/Tcl/vtkflowvrrender${TCLLIBPATH:+ ${TCLLIBPATH}}"
+export FLOWVR_DATA_PATH="@CMAKE_INSTALL_PREFIX@/share/vtk-flowvr/data${FLOWVR_DATA_PATH:+:${FLOWVR_DATA_PATH}}"
+
+export @app_cmake@_DIR="@CMAKE_INSTALL_PREFIX@/@CMAKE_DIR@"
