@@ -42,6 +42,7 @@
 #include <string>
 #include <list>
 
+#define HAVE_STRING_H
 #include <gvc.h>
 
 #if USING_CGRAPH
