@@ -14,6 +14,11 @@ ENDIF(DEFINED CMAKE_PATCH_VERSION)
 
 ##########################################
 
+ if(POLICY CMP0048)
+   # new behaviour (3.0.4) is to set the version through project() command
+   cmake_policy(SET CMP0048 OLD)
+ endif(POLICY CMP0048)
+
 SET(PROJECT_VERSION_MAJOR 2)
 SET(PROJECT_VERSION_MINOR 1)
 SET(PROJECT_VERSION_PATCH 0)
