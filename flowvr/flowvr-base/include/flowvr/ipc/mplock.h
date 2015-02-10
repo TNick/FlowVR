@@ -40,6 +40,11 @@
 #include "flowvr/ipc/locker.h"
 #include "flowvr/mem/mpdata.h"
 
+#ifdef WIN32
+/*  http://mail.rtai.org/pipermail/rtai/2004-November/009326.html */
+#   define pthread_yield sched_yield
+#endif // WIN32
+
 #if defined(FLOWVR_USE_MPTHREAD)
 // Multi-process aware pthread
 

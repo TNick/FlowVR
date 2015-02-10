@@ -15,9 +15,10 @@ CHECK_SYMBOL_EXISTS( MSG_NOSIGNAL "signal.h;sys/types.h;sys/socket.h;bits/socket
 CONFIGURE_FILE(include/flowvr/config.h.in ${flowvr_base_BINARY_DIR}/include/flowvr/config.h)
 
 
-# Enable -fPIC compiler flag (position-independent code)
-SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}\ -fPIC)
-
+if(NOT WIN32)
+    # Enable -fPIC compiler flag (position-independent code)
+    SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}\ -fPIC)
+endif()
 
 
 ADD_SUBDIRECTORY(src)

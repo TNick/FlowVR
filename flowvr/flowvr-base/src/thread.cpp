@@ -43,6 +43,10 @@
 #include <machine/cpu.h>
 #endif
 
+#ifdef WIN32
+/*  http://mail.rtai.org/pipermail/rtai/2004-November/009326.html */
+#   define pthread_yield sched_yield
+#endif // WIN32
 
 namespace flowvr
 {
@@ -118,8 +122,12 @@ int Thread::wait()
 /// Kill this thread
 void Thread::kill()
 {
-	if(tID)
+    if(tID)
+#ifdef WIN32
+        pthread_kill(tID,SIGTERM);
+#else
 		pthread_kill(tID,SIGKILL);
+#endif
 }
 
 void Thread::detach()
