@@ -1,5 +1,12 @@
 # FLOWVR BASE LIBRARY
 
+
+ if(POLICY CMP0046)
+   # some files are not yet generated on first CMake run, resulting in CMake warning
+   # old behaviour hides the warning
+   cmake_policy(SET CMP0046 OLD)
+ endif(POLICY CMP0046)
+
 INCLUDE_DIRECTORIES("${flowvr_base_SOURCE_DIR}/include" 
 		    "${flowvr_base_BINARY_DIR}/include" 
                     "${CMAKE_BINARY_DIR}/include" 
@@ -223,4 +230,4 @@ ADD_LIBRARY(flowvr-mod SHARED ${mod-SRC})
 TARGET_LINK_LIBRARIES(flowvr-mod flowvr-base ${CMAKE_THREAD_LIBS_INIT})
 SET_TARGET_PROPERTIES(flowvr-mod PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
 
-INSTALL(TARGETS flowvr-base flowvr-mod LIBRARY DESTINATION lib)
+INSTALL(TARGETS flowvr-base flowvr-mod LIBRARY DESTINATION lib RUNTIME DESTINATION bin ARCHIVE DESTINATION lib)

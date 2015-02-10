@@ -167,7 +167,11 @@ IF(BUILD_CONTRIB)
   SET(DOCLIST ${DOCLIST} doc-flowvr-contrib)
 ENDIF(BUILD_CONTRIB)
 
-
+ if(POLICY CMP0046)
+   # some targets in ${DOCLIST} are not yet generated on first CMake run, resulting in CMake warning
+   # old behaviour hides the warning
+   cmake_policy(SET CMP0046 OLD)
+ endif(POLICY CMP0046)
 ADD_CUSTOM_TARGET(doc)
 ADD_DEPENDENCIES(doc  ${DOCLIST})
 
